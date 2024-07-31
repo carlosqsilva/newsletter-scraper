@@ -53,7 +53,7 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
-  scrapper:
+  scraper:
     dependencies:
       '@types/better-sqlite3':
         specifier: ^7.6.11
