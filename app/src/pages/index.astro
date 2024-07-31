@@ -1,0 +1,25 @@
+---
+import { Search } from "../components/search";
+import { Logo } from "../components/logo";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Newsletter Scrapper</title>
+  </head>
+  <body class="bg-slate-600 min-h-screen flex flex-col">
+    <header class="container mx-auto">
+      <Logo />
+    </header>
+
+    <Search client:only="solid-js" />
+    
+    <footer class="flex items-center p-5 justify-center text-white">
+      Made by <span class="mx-1">Carlos Silva</span>
+    </footer>
+  </body>
+</html>

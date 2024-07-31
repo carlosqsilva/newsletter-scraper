@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+on:
+  schedule:
+    - cron: "0 0 1/2 * *" # runs every 2 days
+  # Allows you to run this workflow manually from the Actions tab on GitHub.
+  workflow_dispatch:
+
+# Allow this job to clone the repo and create a page deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Update database
+        working-directory: ./scraper
+        run: pnpm run build
+
+      - name: Build Website
+        working-directory: ./app
+        run: pnpm run build
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./app/dist/"
+
+      - name: Commit changes
+        working-directory: ./scraper
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add database.db
+          git commit -am "Automated database update"
+          git push
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

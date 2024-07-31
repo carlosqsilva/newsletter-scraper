@@ -1,0 +1,11 @@
+{
+  "name": "newslatter-scrapper",
+  "scripts": {
+    "build": "node --import ./loader/index.js main.ts"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "5.5.4"
+    }
+  }
+}
