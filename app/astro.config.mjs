@@ -5,4 +5,6 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   integrations: [solidJs(), tailwind()],
+  site: "https://carlosqsilva.github.io",
+  base: "/newsletter-scraper",
 });
