@@ -55,7 +55,6 @@ function Results() {
         >
           <For each={virtual.getVirtualItems()}>
             {(item) => {
-              console.log(item);
               return (
                 <Show when={store.results[item.index]}>
                   <li
@@ -87,12 +86,20 @@ function SearchInput() {
         e.stopPropagation();
 
         const form = new FormData(e.currentTarget);
-        const searchQuery = form.get("search") as string;
-        search.search({ query: searchQuery, source: [] }, (results) => {
-          console.log(results);
+        const searchQuery = (form.get("search") as string)?.trim();
+
+        if (searchQuery === "") {
           listContainer?.scrollTo({ top: 0 });
-          setStore("results", results);
-        });
+          setStore("results", []);
+        }
+
+        if (searchQuery) {
+          search.search({ query: searchQuery, source: [] }, (results) => {
+            console.log(`Results: ${results?.length}`);
+            listContainer?.scrollTo({ top: 0 });
+            setStore("results", results);
+          });
+        }
       }}
     >
       <input

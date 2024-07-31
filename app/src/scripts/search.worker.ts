@@ -14,7 +14,7 @@ const log = (msg: string) => console.info(`[WEB WORKER]: ${msg}`);
 const dataUrl = "/newsletter-scraper/data.json";
 const expirationKey = "expiration";
 const now = Date.now();
-const week = 604_800_000; // 1 week in miliseconds
+const week = 172_800_000; // 2 days in miliseconds
 let ready = false;
 
 function validateResponse(resp?: Response) {
