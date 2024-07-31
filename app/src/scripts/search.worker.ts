@@ -11,7 +11,7 @@ const minisearch = new MiniSearch({
 
 const log = (msg: string) => console.info(`[WEB WORKER]: ${msg}`);
 
-const dataUrl = "/data.json";
+const dataUrl = "/newsletter-scraper/data.json";
 const expirationKey = "expiration";
 const now = Date.now();
 const week = 604_800_000; // 1 week in miliseconds
