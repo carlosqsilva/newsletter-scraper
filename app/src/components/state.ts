@@ -1,16 +1,18 @@
 import { createStore } from "solid-js/store";
 
 export interface ResultType {
-	description: string;
-	source: string;
-	date: string;
-	url: string;
+  description: string;
+  source: string;
+  date: string;
+  url: string;
 }
 
 interface Store {
-	results: ResultType[];
+  results: ResultType[];
+  search_time: number;
 }
 
 export const [store, setStore] = createStore<Store>({
-	results: [],
+  results: [],
+  search_time: 0,
 });

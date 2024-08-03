@@ -75,11 +75,9 @@ function processMessage({ search, callbackId }: MessageData) {
 
   const isSourceEmpty = source?.length === 0;
   const sourceSet = new Set(source);
-  const results = minisearch
-    .search(query, {
-      filter: (item) => isSourceEmpty || sourceSet.has(item.source),
-    })
-    .slice(0, 1_000);
+  const results = minisearch.search(query, {
+    filter: (item) => isSourceEmpty || sourceSet.has(item.source),
+  });
 
   postMessage({
     results,
@@ -100,11 +98,11 @@ getData("cache-v1").then((data) => {
 });
 
 // biome-ignore lint/suspicious/noGlobalAssign: this is a web worker
-onmessage = (e: MessageEvent<MessageData>) => {
+onmessage = ({ data }: MessageEvent<MessageData>) => {
   if (!ready) {
-    pendingMessage = e.data;
+    pendingMessage = data;
     return;
   }
 
-  processMessage(e.data);
+  processMessage(data);
 };

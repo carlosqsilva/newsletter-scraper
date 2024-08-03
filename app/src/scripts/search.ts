@@ -29,10 +29,9 @@ export class SearchWorker<T> {
   }
 
   search(search: SearchInput, callback: Callback<T>) {
-    const callbackId = this.addCallback(callback);
     this.worker.postMessage({
       search,
-      callbackId,
+      callbackId: this.addCallback(callback),
     });
   }
 

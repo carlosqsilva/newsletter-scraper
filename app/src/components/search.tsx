@@ -10,9 +10,15 @@ const search = new SearchWorker<ResultType[]>();
 export function Search() {
   return (
     <>
-      <div class="py-8 bg-slate-700">
-        <div class="container mx-auto ">
+      <div class="bg-slate-700">
+        <div class="py-8 container mx-auto relative">
           <SearchInput />
+
+          <Show when={store.results.length > 0}>
+            <div class="absolute bottom-0 text-slate-300">
+              Found {store.results.length} items in {store.search_time} ms
+            </div>
+          </Show>
         </div>
       </div>
 
@@ -27,6 +33,7 @@ function Results() {
   const virtual = createVirtualizer({
     estimateSize: () => 96,
     getScrollElement: () => listContainer ?? null,
+    paddingEnd: 48,
     get count() {
       return store.results.length;
     },
@@ -36,8 +43,8 @@ function Results() {
     const [entry] = entries;
     if (!entry?.target) return;
     const parentHeight = entry.target?.clientHeight;
-    if (listContainer?.style) {
-      listContainer.style.height = `${parentHeight}px`;
+    if (parentHeight && listContainer?.style) {
+      listContainer?.style.setProperty("height", `${parentHeight}px`);
     }
   });
 
@@ -45,35 +52,40 @@ function Results() {
   onCleanup(() => resizeObserver.disconnect());
 
   return (
-    <div class="flex-1" ref={observeSize}>
-      <div class="overflow-y-auto" ref={listContainer}>
-        <ul
-          class="relative container mx-auto"
-          style={{
-            height: `${virtual.getTotalSize()}px`,
-          }}
+    <>
+      <div class="flex-1 relative" ref={observeSize}>
+        <div
+          class="overflow-y-auto w-full absolute top-0 left-0"
+          ref={listContainer}
         >
-          <For each={virtual.getVirtualItems()}>
-            {(item) => {
-              return (
-                <Show when={store.results[item.index]}>
-                  <li
-                    data-index={item.index}
-                    class="absolute top-0 left-0 w-full"
-                    style={{ transform: `translateY(${item.start}px)` }}
-                    ref={(el) => {
-                      queueMicrotask(() => virtual.measureElement(el));
-                    }}
-                  >
-                    <Result result={store.results[item.index]} />
-                  </li>
-                </Show>
-              );
+          <ul
+            class="relative container mx-auto"
+            style={{
+              height: `${virtual.getTotalSize()}px`,
             }}
-          </For>
-        </ul>
+          >
+            <For each={virtual.getVirtualItems()}>
+              {(item) => {
+                return (
+                  <Show when={store.results[item.index]}>
+                    <li
+                      data-index={item.index}
+                      class="absolute top-0 left-0 w-full"
+                      style={{ transform: `translateY(${item.start}px)` }}
+                      ref={(el) => {
+                        queueMicrotask(() => virtual.measureElement(el));
+                      }}
+                    >
+                      <Result result={store.results[item.index]} />
+                    </li>
+                  </Show>
+                );
+              }}
+            </For>
+          </ul>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -94,10 +106,19 @@ function SearchInput() {
         }
 
         if (searchQuery) {
+          performance.mark("search-start");
           search.search({ query: searchQuery, source: [] }, (results) => {
-            console.log(`Results: ${results?.length}`);
+            performance.mark("search-end");
             listContainer?.scrollTo({ top: 0 });
-            setStore("results", results);
+            const duration = performance.measure(
+              "search-duration",
+              "search-start",
+              "search-end",
+            );
+            setStore({
+              results,
+              search_time: duration.duration,
+            });
           });
         }
       }}
