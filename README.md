@@ -1,1 +1,1 @@
-# newslatter-scrapper
+# newsletter-scraper
