@@ -13,7 +13,7 @@ import { Logo } from "../components/logo";
     />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Newsletter Scrapper</title>
+    <title>Newsletter Scraper</title>
   </head>
   <body class="bg-slate-600 min-h-screen flex flex-col">
     <header class="container mx-auto">
@@ -22,8 +22,13 @@ import { Logo } from "../components/logo";
 
     <Search client:only="solid-js" />
 
-    <footer class="flex items-center p-5 justify-center text-white">
-      Made by <span class="mx-1">Carlos Silva</span>
+    <footer
+      class="fixed bottom-0 w-full bg-slate-600/30 backdrop-blur-sm z-10 flex items-center p-3 justify-center text-white"
+    >
+      Made by <a
+        href="https://github.com/carlosqsilva"
+        class="mx-1 text-sky-300">Carlos Silva</a
+      >
     </footer>
   </body>
 </html>
