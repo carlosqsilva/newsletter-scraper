@@ -10,7 +10,7 @@
     "better-sqlite3": "^11.1.2",
     "date-fns": "^3.6.0",
     "happy-dom": "^14.12.3",
-    "oxc-transform": "^0.22.1",
+    "oxc-transform": "^0.23.0",
     "typescript": "5.5.3"
   }
 }

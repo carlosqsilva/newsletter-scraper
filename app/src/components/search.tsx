@@ -4,8 +4,33 @@ import { createVirtualizer } from "@tanstack/solid-virtual";
 import { SearchWorker } from "../scripts/search";
 import { Result } from "./result";
 import { setStore, store, type ResultType } from "./state";
+import { defined, getSearchParams, updateURLSearchParams } from "../utils";
 
 const search = new SearchWorker<ResultType[]>();
+
+function submitSearch(query: string) {
+  updateURLSearchParams({ q: query });
+  performance.mark("search-start");
+  search.search({ query, source: [] }, (results) => {
+    performance.mark("search-end");
+    const duration = performance.measure(
+      "search-duration",
+      "search-start",
+      "search-end",
+    );
+    setStore({
+      results,
+      search_time: Math.round(duration.duration),
+    });
+  });
+}
+
+(() => {
+  const param = getSearchParams("q");
+  console.log({ param });
+  if (!defined(param)) return;
+  submitSearch(param);
+})();
 
 export function Search() {
   return (
@@ -100,30 +125,20 @@ function SearchInput() {
         const form = new FormData(e.currentTarget);
         const searchQuery = (form.get("search") as string)?.trim();
 
+        listContainer?.scrollTo({ top: 0 });
+
         if (searchQuery === "") {
-          listContainer?.scrollTo({ top: 0 });
+          updateURLSearchParams();
           setStore("results", []);
         }
 
         if (searchQuery) {
-          performance.mark("search-start");
-          search.search({ query: searchQuery, source: [] }, (results) => {
-            performance.mark("search-end");
-            listContainer?.scrollTo({ top: 0 });
-            const duration = performance.measure(
-              "search-duration",
-              "search-start",
-              "search-end",
-            );
-            setStore({
-              results,
-              search_time: duration.duration,
-            });
-          });
+          submitSearch(searchQuery);
         }
       }}
     >
       <input
+        autofocus
         placeholder="Search..."
         class="bg-slate-800 text-white text-4xl pl-5 pr-10 py-3 w-full focus:outline outline-offset-2 outline-2 placeholder:text-slate-300"
         name="search"
