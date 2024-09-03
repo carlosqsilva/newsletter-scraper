@@ -1,6 +1,5 @@
 ---
 import { Search } from "../components/search";
-import { Logo } from "../components/logo";
 ---
 
 <html lang="en">
@@ -15,19 +14,15 @@ import { Logo } from "../components/logo";
     <meta name="generator" content={Astro.generator} />
     <title>Newsletter Scraper</title>
   </head>
-  <body class="bg-slate-600 min-h-screen flex flex-col">
-    <header class="container mx-auto">
-      <Logo />
-    </header>
-
+  <body class="min-h-screen">
     <Search client:only="solid-js" />
 
     <footer
-      class="fixed bottom-0 w-full bg-slate-600/30 backdrop-blur-sm z-10 flex items-center p-3 justify-center text-white"
+      class="fixed bottom-0 w-full bg-white/30 backdrop-blur-sm z-10 flex items-center p-3 justify-center"
     >
       Made by <a
         href="https://github.com/carlosqsilva"
-        class="mx-1 text-sky-300">Carlos Silva</a
+        class="mx-1 text-sky-600">Carlos Silva</a
       >
     </footer>
   </body>

@@ -2,7 +2,10 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "jsx": "preserve",
-    "jsxImportSource": "solid-js"
+    "jsxImportSource": "solid-js",
+    "module": "ESNext",
   },
-  "exclude": ["dist"]
+  "exclude": [
+    "dist"
+  ]
 }
