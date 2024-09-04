@@ -1,4 +1,4 @@
-import { onCleanup, onMount, splitProps, type JSX } from "solid-js";
+import { onCleanup, splitProps, type JSX } from "solid-js";
 import { SearchIcon } from "lucide-solid";
 import { tinykeys } from "tinykeys";
 
