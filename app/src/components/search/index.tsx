@@ -46,7 +46,7 @@ function SearchEmpty() {
 			<Logo size="lg" />
 
 			<p class="text-lg md:text-xl text-center text-zinc-600">
-				Search curated content from many programing/coding newsletter
+				Search curated content from many programming/coding newsletter
 			</p>
 
 			<SearchInput class="w-full" />
