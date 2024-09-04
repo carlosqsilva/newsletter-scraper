@@ -10,7 +10,7 @@ export function Result(props: {
 			rel="noreferrer"
 			class="p-4 py-5 hover:underline underline-offset-4 decoration-zinc-400"
 		>
-			<p class="text-lg text-zinc-700">{props.result.description}</p>
+			<p class="md:text-lg text-zinc-700">{props.result.description}</p>
 			<div class="text-zinc-500">
 				{props.result.date} | {props.result.source}
 			</div>

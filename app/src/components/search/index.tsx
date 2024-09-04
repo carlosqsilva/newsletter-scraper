@@ -42,11 +42,11 @@ export function Search() {
 
 function SearchEmpty() {
 	return (
-		<div class="px-8 max-w-screen-lg mx-auto min-h-[80vh] flex flex-col gap-10 items-center justify-center">
+		<div class="px-8 max-w-screen-lg mx-auto min-h-[70vh] flex flex-col gap-10 items-center justify-center">
 			<Logo size="lg" />
 
-			<p class="text-xl text-zinc-600">
-				Search curated content from 7 programming newsletter
+			<p class="text-lg md:text-xl text-center text-zinc-600">
+				Search curated content from many programing/coding newsletter
 			</p>
 
 			<SearchInput class="w-full" />
@@ -57,17 +57,17 @@ function SearchEmpty() {
 function SearchResult() {
 	return (
 		<div class="h-screen flex flex-col">
-			<header class="px-4 border-b">
-				<div class="py-10 container mx-auto flex items-center gap-8">
-					<Logo />
+			<header class="md:px-4 md:border-b">
+				<div class="md:py-10 container mx-auto flex items-center gap-8">
+					<Logo class="max-[640px]:hidden" />
 
-					<SearchInput class="flex-1" />
+					<SearchInput class="flex-1 max-[640px]:rounded-none" />
 				</div>
 			</header>
 
-			<div class="px-4 flex-1 bg-zinc-50">
-				<main class="flex gap-8 h-full container mx-auto">
-					<div class="max-w-56 py-10 px-4">
+			<div class="flex-1 bg-zinc-50">
+				<main class="flex gap-6 h-full container mx-auto">
+					<div class="hidden md:block max-w-56 pt-6 pr-4">
 						<FilterOptions
 							onChange={(filters) => {
 								setSearchStore("searchFilter", filters);
@@ -88,7 +88,7 @@ function SearchResult() {
 
 					<div class="flex-1 flex flex-col">
 						<Show when={resultStore.results.length > 0}>
-							<div class="pt-5 text-zinc-800">
+							<div class="px-4 pt-5 text-zinc-800">
 								Found{" "}
 								<span class="font-semibold">{resultStore.results.length}</span>{" "}
 								items in {resultStore.searchTime} ms

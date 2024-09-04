@@ -31,7 +31,7 @@ export function Results() {
 	return (
 		<div class="flex-1 relative" ref={observeSize}>
 			<div
-				class="overflow-y-auto w-full absolute top-0 left-0"
+				class="overflow-y-auto w-full absolute top-0 left-0 px-4"
 				ref={listContainer}
 			>
 				<ul
