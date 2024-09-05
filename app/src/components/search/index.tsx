@@ -67,7 +67,7 @@ function SearchResult() {
 
 			<div class="flex-1 bg-zinc-50">
 				<main class="flex gap-6 h-full container mx-auto">
-					<div class="hidden md:block max-w-56 pt-6 pr-4">
+					<div class="hidden md:block max-w-56 pt-6 pl-4">
 						<FilterOptions
 							onChange={(filters) => {
 								setSearchStore("searchFilter", filters);
