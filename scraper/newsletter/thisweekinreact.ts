@@ -15,7 +15,7 @@ export async function extractThisWeekInReact(browser: Browser, db: Storage) {
   await page.goto(`${baseUrl}/newsletter`);
 
   const issues = page.mainFrame.document.querySelectorAll(
-    `nav[class^="sidebar"] > ul li`,
+    `nav[class^="sidebar"] ul[class^="sidebarItemList"] li`,
   );
 
   for (const issue of issues) {

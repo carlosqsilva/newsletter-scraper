@@ -89,8 +89,7 @@ export class Storage extends SQLite {
   }
 
   saveContent(source: SourceName, { date, url, content }: Content) {
-    const stmt = this
-      .prepare(`INSERT INTO newsletter (status_id, source_id, url, date, content)
+    const stmt = this.prepare(`INSERT INTO newsletter (status_id, source_id, url, date, content)
       VALUES (@status_id, @source_id, @url, @date, @content)`);
 
     const hasContent = Array.isArray(content) && content.length > 0;
