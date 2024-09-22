@@ -12,6 +12,7 @@ A web scraper that extract curated content from Programming/Coding newsletter, m
 - [x] [Ruby Weekly](https://rubyweekly.com)
 - [x] [Postgres Weekly](https://postgresweekly.com)
 - [x] [This Week in React](https://thisweekinreact.com)
+- [x] [Pycoders Weekly](https://pycoders.com/)
 
 Want to suggest a new newsletter? [Suggest Newsletter](https://github.com/carlosqsilva/newsletter-scraper/issues/new/choose)
 
