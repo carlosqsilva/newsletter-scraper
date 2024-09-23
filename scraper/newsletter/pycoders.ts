@@ -4,46 +4,81 @@ import type {
   Element,
   HTMLAnchorElement,
 } from "happy-dom";
-import type { Storage } from "../database";
 import { formatISO, isValid, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
+
+import type { Storage } from "../database.ts";
 import type { InfoContent } from "./javascripweekly/helper";
 import { defined, resolveUrl } from "../utils.ts";
+import type { InfoExtractor } from "./interface.ts";
 
-const baseUrl = "https://pycoders.com";
+export class PyCoders implements InfoExtractor {
+  db: Storage;
+  browser: Browser;
+  static baseUrl = "https://pycoders.com";
 
-export async function extractPycoders(browser: Browser, db: Storage) {
-  const page = browser.newPage();
+  constructor(browser: Browser, db: Storage) {
+    this.browser = browser;
+    this.db = db;
+  }
 
-  await page.goto(`${baseUrl}/issues`);
+  static canHandle(url: string) {
+    return url.startsWith(PyCoders.baseUrl);
+  }
 
-  const issues = page.mainFrame.document.querySelectorAll(
-    '.container div h2 a[href^="/issues"]',
-  );
+  async updateUrl(url: string) {
+    if (!this.db.isSaved(url)) {
+      throw new Error(`URL does not exist on database: ${url}`);
+    }
 
-  for (const issue of issues) {
-    const url = (issue as HTMLAnchorElement).href;
-    if (!url) throw new Error("failed to extract url");
-    if (!url || db.isSaved(url)) continue;
+    const page = this.browser.newPage();
+    await page.goto(url);
 
-    const issueNumber = Number(url.split("/").at(-1));
-    // skip everything from "Issue #402 (Jan. 1, 2020)"
-    if (issueNumber < 402) break;
+    console.log(`parsing: ${url}`);
+    const content = await extractContent(page);
 
-    try {
-      await page.goto(url);
-      console.log(`parsing: ${url}`);
+    if (content.length) {
+      this.db.updateUrl(url, content);
+    }
 
-      const textContent = issue?.textContent;
-      const date = extractDate(textContent);
-      const content = await extractContent(page);
-      db.saveContent("pycoders", {
-        url,
-        date,
-        content,
-      });
-    } catch (err) {
-      console.error(err);
+    page.close();
+  }
+
+  async update() {
+    const page = this.browser.newPage();
+
+    await page.goto(`${PyCoders.baseUrl}/issues`);
+
+    const issues = page.mainFrame.document.querySelectorAll(
+      '.container div h2 a[href^="/issues"]',
+    );
+
+    for (const issue of issues) {
+      const url = (issue as HTMLAnchorElement).href;
+      if (!url) throw new Error("failed to extract url");
+      if (!url || this.db.isSaved(url)) continue;
+
+      const issueNumber = Number(url.split("/").at(-1));
+      // skip everything from "Issue #402 (Jan. 1, 2020)"
+      if (issueNumber < 402) break;
+
+      try {
+        await page.goto(url);
+        console.log(`parsing: ${url}`);
+
+        const textContent = issue?.textContent;
+        const date = extractDate(textContent);
+        const content = await extractContent(page);
+        this.db.saveContent("pycoders", {
+          url,
+          date,
+          content,
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        page.close();
+      }
     }
   }
 }
@@ -116,7 +151,7 @@ async function parseInfo(nodeList: Element[]): Promise<InfoContent | null> {
 
   if (!content.link) return null;
 
-  if (content.link.startsWith(baseUrl)) {
+  if (content.link.startsWith(PyCoders.baseUrl)) {
     const finalUrl = await resolveUrl(content.link);
     if (!finalUrl) return null;
     content.link = finalUrl;

@@ -1,20 +1,24 @@
+import { parseArgs } from "node:util";
+import { update } from "./commands/update.ts";
+import { updateUrl } from "./commands/updateUrl.ts";
 import {
   Browser,
   BrowserErrorCaptureEnum,
   BrowserNavigationCrossOriginPolicyEnum,
 } from "happy-dom";
 import { Storage } from "./database.ts";
-import { extractThisWeekInReact } from "./newsletter/thisweekinreact.ts";
-import { extractJavascriptlyWeekly } from "./newsletter/javascripweekly/index.ts";
-import {
-  extractFrontendFocus,
-  extractGolangWeekly,
-  extractNodeWeekly,
-  extractPostgresWeekly,
-  extractReactStatus,
-  extractRubyWeekly,
-} from "./newsletter/common.ts";
-import { extractPycoders } from "./newsletter/pycoders.ts";
+
+const { values } = parseArgs({
+  args: process.argv.slice(2),
+  options: {
+    update: {
+      type: "boolean",
+    },
+    "update-url": {
+      type: "string",
+    },
+  },
+});
 
 const storage = new Storage();
 
@@ -34,24 +38,10 @@ const browser = new Browser({
   },
 });
 
-try {
-  await Promise.all([
-    extractJavascriptlyWeekly(browser, storage),
-    extractFrontendFocus(browser, storage),
-    extractGolangWeekly(browser, storage),
-    extractNodeWeekly(browser, storage),
-    extractPostgresWeekly(browser, storage),
-    extractReactStatus(browser, storage),
-    extractRubyWeekly(browser, storage),
-    extractThisWeekInReact(browser, storage),
-    extractPycoders(browser, storage),
-  ]);
-} catch (err) {
-  console.log(err);
+if (values.update) {
+  await update(browser, storage);
 }
 
-await browser.close();
-
-storage.summary();
-
-storage.export();
+if (values["update-url"]) {
+  await updateUrl(values["update-url"], browser, storage);
+}

@@ -3,7 +3,8 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "node --import ./loader/index.js main.ts"
+    "update": "node --import ./loader/index.js main.ts --update",
+    "update-url": "node --import ./loader/index.js main.ts --update-url"
   },
   "dependencies": {
     "@types/better-sqlite3": "^7.6.11",

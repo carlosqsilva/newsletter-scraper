@@ -108,6 +108,22 @@ export class Storage extends SQLite {
     });
   }
 
+  updateUrl(url: string, content: unknown[] | null) {
+    const stmt = this.prepare(`
+      UPDATE newsletter 
+      SET 
+        content = @content,
+        status_id = @status_id
+      WHERE url = @url`);
+
+    const hasContent = Array.isArray(content) && content.length > 0;
+    const status_id = hasContent
+      ? this.status.get("success")
+      : this.status.get("error");
+
+    stmt.run({ url, content: JSON.stringify(content), status_id });
+  }
+
   summary() {
     const stmt = this.prepare(
       `SELECT
