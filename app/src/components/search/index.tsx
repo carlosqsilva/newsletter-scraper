@@ -83,6 +83,7 @@ function SearchResult() {
                 { label: "Ruby Weekly", value: "rubyweekly" },
                 { label: "Postgres Weekly", value: "postgresweekly" },
                 { label: "PyCoders", value: "pycoders" },
+                { label: "Swift News", value: "swiftnews" },
               ]}
             />
           </div>

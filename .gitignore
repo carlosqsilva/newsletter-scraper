@@ -175,8 +175,8 @@ dist
 .DS_Store
 
 # Sqlite temp files
-.db-shm
-.db-wal
+*.db-shm
+*.db-wal
 
 # Exported data
 data.json
