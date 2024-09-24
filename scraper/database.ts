@@ -15,7 +15,8 @@ export type SourceName =
   | "rubyweekly"
   | "postgresweekly"
   | "thisweekinreact"
-  | "pycoders";
+  | "pycoders"
+  | "swiftnews";
 type Source = CategoryEnum<SourceName>;
 
 export type StatusName = "success" | "error";
@@ -59,7 +60,8 @@ export class Storage extends SQLite {
       ('rubyweekly'),
       ('postgresweekly'),
       ('thisweekinreact'),
-      ('pycoders');
+      ('pycoders'),
+      ('swiftnews');
 
       CREATE TABLE IF NOT EXISTS newsletter (
         id INTEGER PRIMARY KEY,

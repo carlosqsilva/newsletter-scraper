@@ -11,7 +11,8 @@ export async function resolveUrl(url: string) {
       timeout: 8000,
       retry: 0,
     });
-    if (response.ok) {
+
+    if (response.status < 404 && response.url !== url) {
       return response.url;
     }
 

@@ -11,6 +11,7 @@ import {
   extractRubyWeekly,
 } from "../newsletter/common.ts";
 import { PyCoders } from "../newsletter/pycoders.ts";
+import { SwiftNews } from "../newsletter/swiftnews.ts";
 
 export async function update(browser: Browser, storage: Storage) {
   try {
@@ -24,6 +25,7 @@ export async function update(browser: Browser, storage: Storage) {
       extractRubyWeekly(browser, storage),
       extractThisWeekInReact(browser, storage),
       new PyCoders(browser, storage).update(),
+      new SwiftNews(browser, storage).update(),
     ]);
   } catch (err) {
     console.log(err);
