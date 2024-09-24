@@ -31,7 +31,7 @@ jobs:
 
       - name: Update database
         working-directory: ./scraper
-        run: pnpm run build
+        run: pnpm run update
 
       - name: Build Website
         working-directory: ./app
