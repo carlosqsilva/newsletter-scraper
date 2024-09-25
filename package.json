@@ -1,15 +1,15 @@
 {
-	"name": "newslatter-scrapper",
-	"scripts": {
-		"scrape": "pnpm --filter scraper build",
-		"web": "pnpm --filter app dev"
-	},
-	"pnpm": {
-		"overrides": {
-			"typescript": "5.5.4"
-		},
-		"patchedDependencies": {
-			"tinykeys": "patches/tinykeys.patch"
-		}
-	}
+  "name": "newslatter-scrapper",
+  "scripts": {
+    "scrape": "pnpm --filter scraper build",
+    "web": "pnpm --filter app dev"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "5.6.2"
+    },
+    "patchedDependencies": {
+      "tinykeys": "patches/tinykeys.patch"
+    }
+  }
 }
