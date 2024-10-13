@@ -1,6 +1,5 @@
 import type { Browser } from "happy-dom";
 import type { Storage } from "../database.ts";
-import { extractThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 import { extractJavascriptlyWeekly } from "../newsletter/javascripweekly/index.ts";
 import {
   extractFrontendFocus,
@@ -10,6 +9,7 @@ import {
   extractReactStatus,
   extractRubyWeekly,
 } from "../newsletter/common.ts";
+import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 import { PyCoders } from "../newsletter/pycoders.ts";
 import { SwiftNews } from "../newsletter/swiftnews.ts";
 
@@ -23,7 +23,7 @@ export async function update(browser: Browser, storage: Storage) {
       extractPostgresWeekly(browser, storage),
       extractReactStatus(browser, storage),
       extractRubyWeekly(browser, storage),
-      extractThisWeekInReact(browser, storage),
+      new ThisWeekInReact(browser, storage).update(),
       new PyCoders(browser, storage).update(),
       new SwiftNews(browser, storage).update(),
     ]);

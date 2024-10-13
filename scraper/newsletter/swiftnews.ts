@@ -5,12 +5,12 @@ import type {
   HTMLTimeElement,
 } from "happy-dom";
 import { isValid, parse } from "date-fns";
+import { enUS } from "date-fns/locale";
 
 import type { InfoExtractor } from "./interface.ts";
 import type { Storage } from "../database.ts";
 import type { InfoContent } from "./javascripweekly/helper.ts";
 import { defined, resolveUrl } from "../utils.ts";
-import { enUS } from "date-fns/locale";
 
 export class SwiftNews implements InfoExtractor {
   browser: Browser;
@@ -26,7 +26,23 @@ export class SwiftNews implements InfoExtractor {
     return url.startsWith(SwiftNews.baseUrl);
   }
 
-  async updateUrl(url: string) {}
+  async updateUrl(url: string) {
+    if (!this.db.isSaved(url)) {
+      throw new Error(`URL does not exist on database: ${url}`);
+    }
+
+    const page = this.browser.newPage();
+    await page.goto(url);
+
+    console.log(`parsing: ${url}`);
+    const [, content] = await extractIssueContent(page);
+
+    if (content.length) {
+      this.db.updateUrl(url, content);
+    }
+
+    page.close();
+  }
 
   async update() {
     const page = this.browser.newPage();
@@ -72,8 +88,8 @@ async function* extractIssues(page: BrowserPage) {
 }
 
 async function extractIssueContent(
-  page: BrowserPage,
-): Promise<[string, (InfoContent | null)[]]> {
+  page: BrowserPage
+): Promise<[string, InfoContent[]]> {
   const timeEl = page.mainFrame.document.querySelector("header time");
   const dateStr = (timeEl as HTMLTimeElement).dateTime;
   const date = parse(dateStr, "yyyy-MM-dd", new Date(), { locale: enUS });
@@ -81,12 +97,12 @@ async function extractIssueContent(
 
   const sections = Array.from(
     page.mainFrame.document.querySelectorAll(
-      'section.category:not([class*="sponsor"])',
-    ),
+      'section.category:not([class*="sponsor"])'
+    )
   );
 
   const items = sections.flatMap((it) =>
-    Array.from(it.querySelectorAll(".item.item--issue")),
+    Array.from(it.querySelectorAll(".item.item--issue"))
   );
 
   const promisesInfo: Promise<InfoContent | null>[] = [];
@@ -105,12 +121,13 @@ async function extractIssueContent(
         description = `${titleEl?.textContent} - ${description}`;
 
         return { link, description };
-      })(),
+      })()
     );
   }
 
-  let infoList = await Promise.all(promisesInfo);
-  infoList = infoList.filter((it) => defined(it));
+  const infoList = (await Promise.all(promisesInfo)).filter((it) =>
+    defined(it)
+  );
 
   console.log(`extracted ${infoList.length} items`);
   return [dateStr, infoList];
