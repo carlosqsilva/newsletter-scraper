@@ -9,6 +9,8 @@ import { extractContentDate } from "./javascripweekly/helper.ts";
 
 const baseUrl = "https://thisweekinreact.com";
 
+const issueUrlPattern = /newsletter\/\d+$/i;
+
 export async function extractThisWeekInReact(browser: Browser, db: Storage) {
   const page = browser.newPage();
 
@@ -22,6 +24,7 @@ export async function extractThisWeekInReact(browser: Browser, db: Storage) {
     const url = issue?.querySelector("a")?.href;
 
     if (!url) throw new Error("failed to extract url");
+    if (!issueUrlPattern.test(url)) continue;
     if (db.isSaved(url)) continue;
     if (url.endsWith("previous")) continue;
 

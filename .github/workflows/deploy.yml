@@ -30,6 +30,7 @@ jobs:
         run: pnpm install
 
       - name: Update database
+        timeout-minutes: 2
         working-directory: ./scraper
         run: pnpm run update
 
