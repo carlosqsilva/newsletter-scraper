@@ -3,12 +3,13 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
+    "dev": "node --import ./loader/index.js main.ts",
     "update": "node --import ./loader/index.js main.ts --update",
     "update-url": "node --import ./loader/index.js main.ts --update-url"
   },
   "dependencies": {
-    "@types/better-sqlite3": "^7.6.11",
-    "better-sqlite3": "^11.2.1",
+    "@types/better-sqlite3": "^7.6.12",
+    "better-sqlite3": "^11.7.2",
     "date-fns": "4.1.0",
     "happy-dom": "16.5.3",
     "oxc-transform": "0.44.0",

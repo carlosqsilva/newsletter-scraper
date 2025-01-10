@@ -1,7 +1,6 @@
 {
   "name": "newslatter-scrapper",
   "scripts": {
-    "scrape": "pnpm --filter scraper build",
     "web": "pnpm --filter app dev"
   },
   "pnpm": {
