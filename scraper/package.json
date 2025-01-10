@@ -12,7 +12,7 @@
     "better-sqlite3": "^11.7.2",
     "date-fns": "4.1.0",
     "happy-dom": "16.5.3",
-    "oxc-transform": "0.44.0",
+    "oxc-transform": "0.34.0",
     "typescript": "5.7.3",
     "undici": "7.2.1"
   }

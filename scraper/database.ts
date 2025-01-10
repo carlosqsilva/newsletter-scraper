@@ -121,8 +121,8 @@ export class Storage extends SQLite {
 
   updateUrl(url: string, content: unknown[] | null) {
     const stmt = this.prepare(`
-      UPDATE newsletter 
-      SET 
+      UPDATE newsletter
+      SET
         content = @content,
         status_id = @status_id
       WHERE url = @url`);
