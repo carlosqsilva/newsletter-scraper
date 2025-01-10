@@ -7,6 +7,8 @@ import {
   BrowserNavigationCrossOriginPolicyEnum,
 } from "happy-dom";
 import { Storage } from "./database.ts";
+import { defined } from "./utils.ts";
+import { getURLInfo } from "./commands/info.ts";
 
 const { values } = parseArgs({
   args: process.argv.slice(2),
@@ -15,6 +17,9 @@ const { values } = parseArgs({
       type: "boolean",
     },
     "update-url": {
+      type: "string",
+    },
+    info: {
       type: "string",
     },
   },
@@ -44,4 +49,8 @@ if (values.update) {
 
 if (values["update-url"]) {
   await updateUrl(values["update-url"], browser, storage);
+}
+
+if (defined(values.info)) {
+  getURLInfo(values.info, storage);
 }
