@@ -1,4 +1,4 @@
-import ky from "ky";
+import { request } from "undici";
 
 export function defined<T>(item: T): item is Exclude<T, null | undefined> {
   return item !== undefined && item !== null;
@@ -6,14 +6,13 @@ export function defined<T>(item: T): item is Exclude<T, null | undefined> {
 
 export async function resolveUrl(url: string) {
   try {
-    const response = await ky(url, {
-      throwHttpErrors: false,
-      timeout: 8000,
-      retry: 0,
+    const { headers, statusCode } = await request(url, {
+      method: "HEAD",
+      headersTimeout: 8_000,
     });
 
-    if (response.status < 404 && response.url !== url) {
-      return response.url;
+    if (statusCode < 404 && headers.location && headers.location !== url) {
+      return headers.location as string;
     }
 
     return null;
