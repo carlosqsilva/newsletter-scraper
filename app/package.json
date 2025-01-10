@@ -22,6 +22,7 @@
     "lucide-solid": "0.469.0",
     "minisearch": "7.1.1",
     "nanoid": "5.0.9",
+    "pretty-ms": "^9.2.0",
     "query-string": "9.1.1",
     "solid-js": "1.9.4",
     "tailwind-merge": "2.6.0",

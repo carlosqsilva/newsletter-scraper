@@ -93,7 +93,7 @@ function SearchResult() {
               <div class="px-4 pt-5 text-zinc-800">
                 Found{" "}
                 <span class="font-semibold">{resultStore.results.length}</span>{" "}
-                items in {resultStore.searchTime} ms
+                items in {resultStore.searchTime}
               </div>
             </Show>
 
