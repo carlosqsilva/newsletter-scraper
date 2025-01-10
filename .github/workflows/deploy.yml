@@ -51,8 +51,8 @@ jobs:
         working-directory: ./scraper
         continue-on-error: true
         run: |
-          git config --global user.name "${GIT_NAME}"
-          git config --global user.email "${GIT_EMAIL}"
+          git config --global user.name ${{ env.GIT_NAME }}
+          git config --global user.email ${{ env.GIT_EMAIL }}
           git add database.db
           git commit -am "Automated database update"
           git push
