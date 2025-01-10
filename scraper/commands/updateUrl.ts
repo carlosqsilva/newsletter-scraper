@@ -6,11 +6,20 @@ import type { Storage } from "../database.ts";
 import { defined } from "../utils.ts";
 import { SwiftNews } from "../newsletter/swiftnews.ts";
 import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
+import {
+  JavascriptWeekly,
+  FrontendFocus,
+  GolangWeekly,
+  NodeWeekly,
+  PostgresWeekly,
+  ReactStatus,
+  RubyWeekly,
+} from "../newsletter/common/index.ts";
 
 export async function updateUrl(
   url: string,
   browser: Browser,
-  storage: Storage
+  storage: Storage,
 ) {
   let extractor: InfoExtractor | null = null;
 
@@ -24,6 +33,25 @@ export async function updateUrl(
 
   if (ThisWeekInReact.canHandle(url)) {
     extractor = new ThisWeekInReact(browser, storage);
+  }
+
+  const items = [
+    JavascriptWeekly,
+    FrontendFocus,
+    GolangWeekly,
+    NodeWeekly,
+    PostgresWeekly,
+    ReactStatus,
+    RubyWeekly,
+  ];
+
+  for (const item of items) {
+    const init = item(browser, storage);
+
+    if (init.canHandle(url)) {
+      extractor = init;
+      break;
+    }
   }
 
   if (!defined(extractor)) {

@@ -1,6 +1,7 @@
 import type { Element, HTMLAnchorElement, BrowserPage } from "happy-dom";
 import { parse, formatISO, isValid } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
+import { defined, resolveUrl } from "../../utils.ts";
 
 const dateReg =
   /\b(?<month>January|February|March|April|May|June|July|August|September|October|November|December)\s+(?<day>\d{1,2})(st|th)?,\s+(?<year>\d{4})\b/gi;
@@ -34,7 +35,7 @@ export interface InfoContent {
   link: string;
 }
 
-export function extractContent(page: BrowserPage) {
+export async function extractContent(page: BrowserPage, baseURL: string) {
   const content = page.mainFrame.document.querySelectorAll(
     "table.el-item.item, table.content.el-md",
   );
@@ -43,12 +44,21 @@ export function extractContent(page: BrowserPage) {
   for (const info of content) {
     const content = parseContent(info);
 
-    if (!content) continue;
+    if (!defined(content)) continue;
 
     infoList = infoList.concat(Array.isArray(content) ? content : [content]);
   }
 
   if (infoList.length === 0) return null;
+
+  const promises = infoList.map(async (info) => {
+    if (!info.link.startsWith(baseURL)) return info;
+    const link = await resolveUrl(info.link);
+    if (!defined(link)) return info;
+    return { ...info, link };
+  });
+
+  infoList = await Promise.all(promises);
 
   console.log(`found ${content.length} items, extracted ${infoList.length}`);
 

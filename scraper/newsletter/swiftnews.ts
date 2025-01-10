@@ -9,7 +9,7 @@ import { enUS } from "date-fns/locale";
 
 import type { InfoExtractor } from "./interface.ts";
 import type { Storage } from "../database.ts";
-import type { InfoContent } from "./javascripweekly/helper.ts";
+import type { InfoContent } from "./common/helper.ts";
 import { defined, resolveUrl } from "../utils.ts";
 
 export class SwiftNews implements InfoExtractor {
@@ -88,7 +88,7 @@ async function* extractIssues(page: BrowserPage) {
 }
 
 async function extractIssueContent(
-  page: BrowserPage
+  page: BrowserPage,
 ): Promise<[string, InfoContent[]]> {
   const timeEl = page.mainFrame.document.querySelector("header time");
   const dateStr = (timeEl as HTMLTimeElement).dateTime;
@@ -97,12 +97,12 @@ async function extractIssueContent(
 
   const sections = Array.from(
     page.mainFrame.document.querySelectorAll(
-      'section.category:not([class*="sponsor"])'
-    )
+      'section.category:not([class*="sponsor"])',
+    ),
   );
 
   const items = sections.flatMap((it) =>
-    Array.from(it.querySelectorAll(".item.item--issue"))
+    Array.from(it.querySelectorAll(".item.item--issue")),
   );
 
   const promisesInfo: Promise<InfoContent | null>[] = [];
@@ -121,12 +121,12 @@ async function extractIssueContent(
         description = `${titleEl?.textContent} - ${description}`;
 
         return { link, description };
-      })()
+      })(),
     );
   }
 
   const infoList = (await Promise.all(promisesInfo)).filter((it) =>
-    defined(it)
+    defined(it),
   );
 
   console.log(`extracted ${infoList.length} items`);

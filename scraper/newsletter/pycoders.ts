@@ -8,7 +8,7 @@ import { formatISO, isValid, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
 
 import type { Storage } from "../database.ts";
-import type { InfoContent } from "./javascripweekly/helper";
+import type { InfoContent } from "./common/helper.ts";
 import { defined, resolveUrl } from "../utils.ts";
 import type { InfoExtractor } from "./interface.ts";
 

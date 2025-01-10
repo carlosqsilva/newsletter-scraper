@@ -30,6 +30,14 @@ export interface Content {
   content?: unknown[] | null;
 }
 
+export interface Info {
+  id: number;
+  url: string;
+  source: SourceName;
+  date: string;
+  data: string;
+}
+
 export class Storage extends SQLite {
   status: Map<StatusName, number>;
   source: Map<SourceName, number>;
@@ -93,7 +101,8 @@ export class Storage extends SQLite {
   }
 
   saveContent(source: SourceName, { date, url, content }: Content) {
-    const stmt = this.prepare(`INSERT INTO newsletter (status_id, source_id, url, date, content)
+    const stmt =
+      this.prepare(`INSERT INTO newsletter (status_id, source_id, url, date, content)
       VALUES (@status_id, @source_id, @url, @date, @content)`);
 
     const hasContent = Array.isArray(content) && content.length > 0;
@@ -124,6 +133,24 @@ export class Storage extends SQLite {
       : this.status.get("error");
 
     stmt.run({ url, content: JSON.stringify(content), status_id });
+  }
+
+  getIssue(url: string) {
+    const stmt = this.prepare(
+      `SELECT
+        n.id,
+        n.url AS url,
+        n.date AS date,
+        n.content AS data,
+        source.name AS source
+      FROM newsletter n
+      LEFT JOIN status ON status.id = n.status_id
+      LEFT JOIN source ON source.id = n.source_id
+      WHERE n.url = ?
+      `,
+    );
+
+    return stmt.get(url) as Info;
   }
 
   summary() {
@@ -157,13 +184,7 @@ export class Storage extends SQLite {
       WHERE status.name = 'success'
       ORDER BY n.date DESC
         `,
-    ).all() as {
-      id: number;
-      url: string;
-      source: SourceName;
-      date: string;
-      data: string;
-    }[];
+    ).all() as Info[];
 
     let uniqueCounter = 0;
     let repeatedCounter = 0;

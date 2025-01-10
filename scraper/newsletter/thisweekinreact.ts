@@ -5,10 +5,7 @@ import type {
   Element,
 } from "happy-dom";
 import type { Storage } from "../database";
-import {
-  extractContentDate,
-  type InfoContent,
-} from "./javascripweekly/helper.ts";
+import { extractContentDate, type InfoContent } from "./common/helper.ts";
 import type { InfoExtractor } from "./interface.ts";
 
 export class ThisWeekInReact implements InfoExtractor {

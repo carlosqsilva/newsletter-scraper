@@ -1,14 +1,14 @@
 import type { Browser } from "happy-dom";
 import type { Storage } from "../database.ts";
-import { extractJavascriptlyWeekly } from "../newsletter/javascripweekly/index.ts";
 import {
-  extractFrontendFocus,
-  extractGolangWeekly,
-  extractNodeWeekly,
-  extractPostgresWeekly,
-  extractReactStatus,
-  extractRubyWeekly,
-} from "../newsletter/common.ts";
+  JavascriptWeekly,
+  FrontendFocus,
+  GolangWeekly,
+  NodeWeekly,
+  PostgresWeekly,
+  ReactStatus,
+  RubyWeekly,
+} from "../newsletter/common/index.ts";
 import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 import { PyCoders } from "../newsletter/pycoders.ts";
 import { SwiftNews } from "../newsletter/swiftnews.ts";
@@ -16,13 +16,13 @@ import { SwiftNews } from "../newsletter/swiftnews.ts";
 export async function update(browser: Browser, storage: Storage) {
   try {
     await Promise.all([
-      extractJavascriptlyWeekly(browser, storage),
-      extractFrontendFocus(browser, storage),
-      extractGolangWeekly(browser, storage),
-      extractNodeWeekly(browser, storage),
-      extractPostgresWeekly(browser, storage),
-      extractReactStatus(browser, storage),
-      extractRubyWeekly(browser, storage),
+      JavascriptWeekly(browser, storage).update(),
+      FrontendFocus(browser, storage).update(),
+      GolangWeekly(browser, storage).update(),
+      NodeWeekly(browser, storage).update(),
+      PostgresWeekly(browser, storage).update(),
+      ReactStatus(browser, storage).update(),
+      RubyWeekly(browser, storage).update(),
       new ThisWeekInReact(browser, storage).update(),
       new PyCoders(browser, storage).update(),
       new SwiftNews(browser, storage).update(),
