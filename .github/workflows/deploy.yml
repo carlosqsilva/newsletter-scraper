@@ -5,6 +5,10 @@ on:
     - cron: "0 0 1/2 * *" # runs every 2 days
   workflow_dispatch:
 
+env:
+  GIT_NAME: ${{ secrets.GIT_NAME }}
+  GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
+
 jobs:
   build:
     permissions:
@@ -47,8 +51,8 @@ jobs:
         working-directory: ./scraper
         continue-on-error: true
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name "${GIT_NAME}"
+          git config --global user.email "${GIT_EMAIL}"
           git add database.db
           git commit -am "Automated database update"
           git push
