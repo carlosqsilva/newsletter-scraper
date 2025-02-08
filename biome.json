@@ -1,6 +1,11 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+  "files": {
+    "ignore": ["node_modules"],
+    "include": ["*.ts", "*.tsx"]
+  },
   "formatter": {
+    "enabled": true,
     "indentStyle": "space",
     "indentWidth": 2
   },

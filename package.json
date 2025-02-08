@@ -1,7 +1,8 @@
 {
   "name": "newslatter-scrapper",
   "scripts": {
-    "web": "pnpm --filter app dev"
+    "web": "pnpm dev --filter app",
+    "fmt": "biome format --write"
   },
   "pnpm": {
     "overrides": {
