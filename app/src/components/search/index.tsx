@@ -1,3 +1,4 @@
+import "../../styles/global.css";
 import "scheduler-polyfill";
 
 import { onMount, Show } from "solid-js";
