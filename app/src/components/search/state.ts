@@ -85,3 +85,12 @@ export function submitSearch() {
 }
 
 export const debouncedSearch = debounce(submitSearch, 700);
+
+export const cleanSearch = () => {
+  updateURLSearchParams();
+  setSearchStore({
+    searchView: false,
+    searchFilter: [],
+    searchQuery: "",
+  });
+};

@@ -1,3 +1,5 @@
+import "scheduler-polyfill";
+
 import { onMount, Show } from "solid-js";
 import qs from "query-string";
 
@@ -7,6 +9,7 @@ import {
   resultStore,
   searchStore,
   debouncedSearch,
+  cleanSearch,
 } from "./state";
 import { defined } from "../../utils";
 import { Logo } from "../ui/logo";
@@ -59,7 +62,7 @@ function SearchResult() {
     <div class="h-screen flex flex-col">
       <header class="md:px-4 md:border-b">
         <div class="md:py-10 container mx-auto flex items-center gap-8">
-          <Logo class="max-[640px]:hidden" />
+          <Logo class="max-[640px]:hidden" onClick={cleanSearch} />
 
           <SearchInput class="flex-1 max-[640px]:rounded-none" />
         </div>
