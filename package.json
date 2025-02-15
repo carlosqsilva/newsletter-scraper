@@ -4,10 +4,9 @@
     "web": "pnpm dev --filter app",
     "fmt": "biome format --write"
   },
+  "packageManager": "pnpm@10.4.0",
   "pnpm": {
-    "overrides": {
-      "typescript": "5.7.3"
-    },
+    "neverBuiltDependencies": [],
     "patchedDependencies": {
       "tinykeys": "patches/tinykeys.patch"
     }

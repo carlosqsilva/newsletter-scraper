@@ -1,3 +1,6 @@
 packages:
   - scraper
   - app
+
+catalog:
+  typescript: 5.7.3

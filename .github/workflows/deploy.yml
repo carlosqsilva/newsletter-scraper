@@ -16,13 +16,12 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
+      - name: Checkout Repo
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         with:
-          version: 9
           run_install: false
 
       - name: Setup Node

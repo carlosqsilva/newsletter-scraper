@@ -13,7 +13,7 @@
     "date-fns": "4.1.0",
     "happy-dom": "17.0.2",
     "oxc-transform": "0.34.0",
-    "typescript": "5.7.3",
-    "undici": "7.2.1"
+    "typescript": "catalog:",
+    "undici": "7.3.0"
   }
 }
