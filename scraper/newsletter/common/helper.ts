@@ -42,6 +42,9 @@ export async function extractContent(page: BrowserPage, baseURL: string) {
 
   let infoList: InfoContent[] = [];
   for (const info of content) {
+
+    if (info.closest("table.classifieds")) continue;
+
     const content = parseContent(info);
 
     if (!defined(content)) continue;

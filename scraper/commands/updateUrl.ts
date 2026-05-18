@@ -6,10 +6,10 @@ import type { Storage } from "../database.ts";
 import { defined } from "../utils.ts";
 import { SwiftNews } from "../newsletter/swiftnews.ts";
 import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
+import { GolangWeekly } from "../newsletter/golangweekly.ts"
 import {
   JavascriptWeekly,
   FrontendFocus,
-  GolangWeekly,
   NodeWeekly,
   PostgresWeekly,
   ReactStatus,
@@ -35,10 +35,13 @@ export async function updateUrl(
     extractor = new ThisWeekInReact(browser, storage);
   }
 
+  if (GolangWeekly.canHandle(url)) {
+    extractor = new GolangWeekly(browser, storage);
+  }
+
   const items = [
     JavascriptWeekly,
     FrontendFocus,
-    GolangWeekly,
     NodeWeekly,
     PostgresWeekly,
     ReactStatus,
