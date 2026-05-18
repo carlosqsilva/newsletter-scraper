@@ -47,7 +47,7 @@ class CommonExtractor implements InfoExtractor {
 
     await page.goto(`${this.baseURL}/issues`);
 
-    const issues = page.mainFrame.document.querySelectorAll("div.issue-card");
+    const issues = page.mainFrame.document.querySelectorAll("div.issue");
 
     for (const issue of issues) {
       const url = issue?.querySelector("a")?.href;
@@ -82,19 +82,8 @@ export const JavascriptWeekly = (browser: Browser, db: Storage) =>
     db,
   );
 
-export const FrontendFocus = (browser: Browser, db: Storage) =>
-  new CommonExtractor("frontendfocus", "https://frontendfoc.us", browser, db);
-
 export const NodeWeekly = (browser: Browser, db: Storage) =>
   new CommonExtractor("nodeweekly", "https://nodeweekly.com", browser, db);
-
-export const ReactStatus = (browser: Browser, db: Storage) =>
-  new CommonExtractor(
-    "reactstatus",
-    "https://react.statuscode.com",
-    browser,
-    db,
-  );
 
 export const RubyWeekly = (browser: Browser, db: Storage) =>
   new CommonExtractor("rubyweekly", "https://rubyweekly.com", browser, db);
