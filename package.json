@@ -1,14 +1,8 @@
 {
   "name": "newslatter-scrapper",
   "scripts": {
-    "web": "pnpm dev --filter app",
+    "web": "pnpm run --filter app dev",
     "fmt": "biome format --write"
   },
-  "packageManager": "pnpm@10.4.0",
-  "pnpm": {
-    "neverBuiltDependencies": [],
-    "patchedDependencies": {
-      "tinykeys": "patches/tinykeys.patch"
-    }
-  }
+  "packageManager": "pnpm@11.25.0"
 }
