@@ -98,10 +98,7 @@ function SearchResult() {
   return (
     <div class="h-screen flex flex-col pb-10">
       <header class="shrink-0 px-4 pt-4 md:px-6 md:pt-5">
-        <WindowFrame
-          title="newsletter_scraper.exe"
-          class="max-w-5xl mx-auto"
-        >
+        <WindowFrame title="newsletter_scraper.exe" class="max-w-5xl mx-auto">
           <div class="px-3 py-2.5 flex items-center gap-4">
             <Logo class="max-[640px]:hidden" onClick={cleanSearch} />
             <SearchInput class="flex-1" />

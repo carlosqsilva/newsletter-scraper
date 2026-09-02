@@ -53,7 +53,11 @@ export function FilterOptions(props: OptionsFiltersProps) {
       </fieldset>
 
       <div class="px-3 pb-3">
-        <Button class="w-full" intent="danger" onClick={() => props.onChange?.([])}>
+        <Button
+          class="w-full"
+          intent="danger"
+          onClick={() => props.onChange?.([])}
+        >
           <RotateCcw size={12} strokeWidth={2.5} />
           Reset
         </Button>

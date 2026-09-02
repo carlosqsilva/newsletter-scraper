@@ -34,8 +34,7 @@ export function Logo(props: LogoProps) {
       <div
         class={cn(
           "flex flex-col font-pixel",
-          local.size === "sm" &&
-            "text-[10px] leading-[1.6] tracking-wide",
+          local.size === "sm" && "text-[10px] leading-[1.6] tracking-wide",
           local.size === "lg" && "text-xs leading-[1.8] md:text-sm",
         )}
       >

@@ -1,21 +1,24 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { type JSX, mergeProps, splitProps } from "solid-js";
 
-const buttonVariants = cva("y2k-btn inline-flex items-center justify-center gap-1.5", {
-  variants: {
-    intent: {
-      neutral: "bg-paper",
-      primary: "bg-butter",
-      info: "bg-lilac",
-      danger: "bg-[#ff5b5b]",
-      success: "bg-[#59d98f]",
-      warning: "bg-butter",
+const buttonVariants = cva(
+  "y2k-btn inline-flex items-center justify-center gap-1.5",
+  {
+    variants: {
+      intent: {
+        neutral: "bg-paper",
+        primary: "bg-butter",
+        info: "bg-lilac",
+        danger: "bg-[#ff5b5b]",
+        success: "bg-[#59d98f]",
+        warning: "bg-butter",
+      },
+    },
+    defaultVariants: {
+      intent: "neutral",
     },
   },
-  defaultVariants: {
-    intent: "neutral",
-  },
-});
+);
 
 interface ButtonProps
   extends JSX.ButtonHTMLAttributes<HTMLButtonElement>,
