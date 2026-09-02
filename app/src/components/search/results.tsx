@@ -56,7 +56,7 @@ export function Results() {
                   style={{ transform: `translateY(${item.start}px)` }}
                   ref={(el) => {
                     createEffect(() => {
-                      const _ = getCount(); // force effect to run
+                      void getCount(); // force effect to run
                       queueMicrotask(() => virtual.measureElement(el));
                     });
                   }}
