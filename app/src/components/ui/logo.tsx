@@ -1,4 +1,4 @@
-import { mergeProps, splitProps, type JSX } from "solid-js";
+import { type JSX, mergeProps, splitProps } from "solid-js";
 import { cn, defined } from "../../utils";
 
 interface LogoProps extends JSX.ButtonHTMLAttributes<HTMLDivElement> {

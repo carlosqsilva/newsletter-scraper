@@ -1,15 +1,15 @@
+import { formatISO, isValid, parse } from "date-fns";
+import { enUS } from "date-fns/locale";
 import type {
   Browser,
   BrowserPage,
   Element,
   HTMLAnchorElement,
 } from "happy-dom";
-import { formatISO, isValid, parse } from "date-fns";
-import { enUS } from "date-fns/locale";
 
 import type { Storage } from "../database.ts";
-import type { InfoContent } from "./common/helper.ts";
 import { defined, resolveUrl } from "../utils.ts";
+import type { InfoContent } from "./common/helper.ts";
 import type { InfoExtractor } from "./interface.ts";
 
 export class PyCoders implements InfoExtractor {
@@ -163,8 +163,7 @@ async function parseInfo(nodeList: Element[]): Promise<InfoContent | null> {
 const dateStringRegex = /\((?<date>.+?)\)$/i;
 function extractDate(str: string) {
   const groups = dateStringRegex.exec(str?.trim())?.groups;
-  if (!groups || !groups.date)
-    throw new Error(`failed to extract date: "${str}"`);
+  if (!groups?.date) throw new Error(`failed to extract date: "${str}"`);
 
   const dateStr = groups.date
     .replace(/dec./i, "December")

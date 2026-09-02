@@ -1,21 +1,17 @@
-import type { Browser, Element } from "happy-dom";
-import type { Storage, SourceName } from "../database.ts";
-import { extractContent } from "./common/helper.ts";
-import type { InfoExtractor } from "./interface.ts";
-import { defined } from "../utils.ts";
 import { formatISO, isValid, parse } from "date-fns";
 import { enUS } from "date-fns/locale";
-
+import type { Browser, Element } from "happy-dom";
+import type { Storage } from "../database.ts";
+import { defined } from "../utils.ts";
+import { extractContent } from "./common/helper.ts";
+import type { InfoExtractor } from "./interface.ts";
 
 export class GolangWeekly implements InfoExtractor {
   browser: Browser;
   db: Storage;
   static baseUrl = "https://golangweekly.com";
 
-  constructor(
-    browser: Browser,
-    db: Storage,
-  ) {
+  constructor(browser: Browser, db: Storage) {
     this.browser = browser;
     this.db = db;
   }
@@ -60,7 +56,7 @@ export class GolangWeekly implements InfoExtractor {
 
         const date = extractContentDate(issue);
 
-        console.log(date)
+        console.log(date);
 
         const content = await extractContent(page, GolangWeekly.baseUrl);
         this.db.saveContent("golangweekly", {
@@ -80,8 +76,8 @@ export class GolangWeekly implements InfoExtractor {
 function extractContentDate(el?: Element): string {
   if (!defined(el)) throw new Error("failed to extract date: invalid string");
 
-  const dateStr = el.querySelector(".issue-date")?.textContent ?? ""
-  const date = parse(dateStr, "yyyy-MM-dd", new Date(), { locale: enUS })
+  const dateStr = el.querySelector(".issue-date")?.textContent ?? "";
+  const date = parse(dateStr, "yyyy-MM-dd", new Date(), { locale: enUS });
 
   if (!isValid(date)) throw new Error("failed to parse date");
   const dateFmt = formatISO(date, { representation: "date" });

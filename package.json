@@ -2,7 +2,8 @@
   "name": "newslatter-scrapper",
   "scripts": {
     "web": "pnpm run --filter app dev",
-    "fmt": "biome format --write"
+    "fmt": "biome format --write",
+    "check": "biome check"
   },
   "packageManager": "pnpm@11.25.0"
 }

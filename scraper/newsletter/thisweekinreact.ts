@@ -1,8 +1,8 @@
 import type {
   Browser,
   BrowserPage,
-  HTMLAnchorElement,
   Element,
+  HTMLAnchorElement,
 } from "happy-dom";
 import type { Storage } from "../database";
 import { extractContentDate, type InfoContent } from "./common/helper.ts";

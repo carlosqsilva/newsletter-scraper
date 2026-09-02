@@ -1,7 +1,7 @@
 import { createVirtualizer } from "@tanstack/solid-virtual";
-import { resultStore } from "./state";
-import { For, createEffect, onCleanup } from "solid-js";
+import { createEffect, For, onCleanup } from "solid-js";
 import { Result } from "./result";
+import { resultStore } from "./state";
 
 let listContainer: HTMLDivElement | undefined;
 

@@ -1,10 +1,9 @@
-import { onCleanup, splitProps, type JSX } from "solid-js";
+import { type JSX, onCleanup, splitProps } from "solid-js";
 import { tinykeys } from "tinykeys";
-
-import { debouncedSearch, searchStore, setSearchStore } from "./state";
 import { cn, defined } from "../../utils";
 import { SearchIcon } from "../ui/icons";
 import { Kbd } from "../ui/kbd";
+import { debouncedSearch, searchStore, setSearchStore } from "./state";
 
 interface SearchInputProps extends JSX.ButtonHTMLAttributes<HTMLFormElement> {}
 
