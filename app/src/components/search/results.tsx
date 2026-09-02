@@ -32,9 +32,22 @@ export function Results() {
   return (
     <WindowFrame
       title="search_results.txt"
-      class="h-full flex flex-col"
+      class="flex-1 min-h-0 flex flex-col"
       bodyClass="flex-1 min-h-0 relative"
+      bodyRef={(el) => resizeObserver.observe(el)}
       data-delay="2"
+      footer={
+        <div class="y2k-status-bar shrink-0" role="status">
+          <span>
+            {resultStore.results.length} ITEM
+            {resultStore.results.length === 1 ? "" : "S"} FOUND
+          </span>
+          <span class="hidden lg:inline truncate">
+            QUERY: {searchStore.searchQuery || "—"}
+          </span>
+          <span>{resultStore.searchTime || "0MS"}</span>
+        </div>
+      }
     >
       <Show when={resultStore.empty}>
         <div class="absolute inset-0 z-10 flex items-center justify-center p-6">
@@ -43,7 +56,7 @@ export function Results() {
       </Show>
 
       <div
-        class="overflow-y-auto w-full absolute inset-0 px-2"
+        class="overflow-y-auto w-full absolute top-0 left-0 px-2"
         ref={listContainer}
         style={{
           height: "2048px", // default initial size
@@ -72,17 +85,6 @@ export function Results() {
             }}
           </For>
         </ul>
-      </div>
-
-      <div class="y2k-status-bar shrink-0" role="status">
-        <span>
-          {resultStore.results.length} ITEM
-          {resultStore.results.length === 1 ? "" : "S"} FOUND
-        </span>
-        <span class="hidden lg:inline truncate">
-          QUERY: {searchStore.searchQuery || "—"}
-        </span>
-        <span>{resultStore.searchTime || "0MS"}</span>
       </div>
     </WindowFrame>
   );

@@ -47,7 +47,7 @@ export function Search() {
 
 function SearchEmpty() {
   return (
-    <div class="relative min-h-screen max-w-screen-lg mx-auto px-4 py-12 flex flex-col gap-8 items-center justify-center overflow-hidden">
+    <div class="relative min-h-screen max-w-screen-lg mx-auto px-4 py-12 flex flex-col gap-8 items-center justify-center">
       {/* decorative pixel sky */}
       <Sparkle class="absolute top-[16%] left-[14%] w-6 h-6 text-hotpink" />
       <Sparkle class="absolute top-[28%] right-[12%] w-4 h-4 text-lilac" />
@@ -120,7 +120,7 @@ function SearchResult() {
           />
         </aside>
 
-        <div class="flex-1 min-h-0">
+        <div class="flex-1 min-h-0 flex flex-col">
           <Results />
         </div>
       </main>

@@ -27,6 +27,10 @@ export function WindowControls() {
 interface WindowFrameProps extends JSX.HTMLAttributes<HTMLElement> {
   title: string;
   bodyClass?: string;
+  /** Ref for the window body element. */
+  bodyRef?: (el: HTMLDivElement) => void;
+  /** Rendered below the body (e.g. status bars), outside of it. */
+  footer?: JSX.Element;
   controls?: boolean;
 }
 
@@ -36,6 +40,8 @@ export function WindowFrame(props: WindowFrameProps) {
     "title",
     "class",
     "bodyClass",
+    "bodyRef",
+    "footer",
     "controls",
     "children",
   ]);
@@ -46,7 +52,10 @@ export function WindowFrame(props: WindowFrameProps) {
         <span class="truncate">{local.title}</span>
         {local.controls !== false && <WindowControls />}
       </div>
-      <div class={local.bodyClass}>{local.children}</div>
+      <div ref={local.bodyRef} class={local.bodyClass}>
+        {local.children}
+      </div>
+      {local.footer}
     </section>
   );
 }
