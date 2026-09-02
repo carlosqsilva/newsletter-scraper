@@ -1,8 +1,7 @@
 import { createSelector, For } from "solid-js";
-
-import { searchStore } from "./state";
 import { Button } from "../ui/button";
 import { RotateCcw } from "../ui/icons";
+import { searchStore } from "./state";
 
 interface OptionsFiltersProps {
   options: Array<{ label: string; value: string }>;

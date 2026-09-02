@@ -1,8 +1,6 @@
 import type { ResultType } from "./state";
 
-export function Result(props: {
-  result: ResultType;
-}) {
+export function Result(props: { result: ResultType }) {
   return (
     <a
       href={props.result.url}

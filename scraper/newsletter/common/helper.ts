@@ -1,6 +1,6 @@
-import type { Element, HTMLAnchorElement, BrowserPage } from "happy-dom";
-import { parse, formatISO, isValid } from "date-fns";
+import { formatISO, isValid, parse } from "date-fns";
 import { enUS } from "date-fns/locale/en-US";
+import type { BrowserPage, Element, HTMLAnchorElement } from "happy-dom";
 import { defined, resolveUrl } from "../../utils.ts";
 
 const dateReg =
@@ -42,7 +42,6 @@ export async function extractContent(page: BrowserPage, baseURL: string) {
 
   let infoList: InfoContent[] = [];
   for (const info of content) {
-
     if (info.closest("table.classifieds")) continue;
 
     const content = parseContent(info);

@@ -1,5 +1,5 @@
-import SQLite from "better-sqlite3";
 import { writeFile } from "node:fs/promises";
+import SQLite from "better-sqlite3";
 
 interface CategoryEnum<T = string> {
   id: number;

@@ -1,6 +1,6 @@
 import { For, splitProps } from "solid-js";
-import { Dynamic } from "solid-js/web";
 import type { JSX } from "solid-js/jsx-runtime";
+import { Dynamic } from "solid-js/web";
 
 export type IconNode = [
   elementName: keyof JSX.IntrinsicElements,

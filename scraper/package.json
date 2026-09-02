@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@types/better-sqlite3": "^7.6.12",
-    "better-sqlite3": "^11.8.1",
+    "better-sqlite3": "^13.0.3",
     "date-fns": "4.1.0",
     "happy-dom": "17.0.2",
     "oxc-transform": "0.34.0",

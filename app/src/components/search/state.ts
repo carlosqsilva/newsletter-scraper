@@ -1,10 +1,9 @@
-import { createStore, unwrap } from "solid-js/store";
-import qs from "query-string";
 import debounce from "debounce";
 import prettyMs from "pretty-ms";
-
-import { defined } from "../../utils";
+import qs from "query-string";
+import { createStore, unwrap } from "solid-js/store";
 import { SearchWorker } from "../../scripts/search";
+import { defined } from "../../utils";
 
 const search = new SearchWorker<ResultType[]>();
 

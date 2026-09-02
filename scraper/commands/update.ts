@@ -5,13 +5,13 @@ import {
   NodeWeekly,
   RubyWeekly,
 } from "../newsletter/common/index.ts";
-import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
-import { PyCoders } from "../newsletter/pycoders.ts";
-import { SwiftNews } from "../newsletter/swiftnews.ts";
-import { GolangWeekly } from "../newsletter/golangweekly.ts";
 import { FrontendFocus } from "../newsletter/frontendfocus.ts";
-import { ReactStatusCode } from "../newsletter/reactstatuscode.ts";
+import { GolangWeekly } from "../newsletter/golangweekly.ts";
 import { PostgresWeekly } from "../newsletter/postgresweekly.ts";
+import { PyCoders } from "../newsletter/pycoders.ts";
+import { ReactStatusCode } from "../newsletter/reactstatuscode.ts";
+import { SwiftNews } from "../newsletter/swiftnews.ts";
+import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 
 export async function update(browser: Browser, storage: Storage) {
   try {

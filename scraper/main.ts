@@ -1,14 +1,14 @@
 import { parseArgs } from "node:util";
-import { update } from "./commands/update.ts";
-import { updateUrl } from "./commands/updateUrl.ts";
 import {
   Browser,
   BrowserErrorCaptureEnum,
   BrowserNavigationCrossOriginPolicyEnum,
 } from "happy-dom";
+import { getURLInfo } from "./commands/info.ts";
+import { update } from "./commands/update.ts";
+import { updateUrl } from "./commands/updateUrl.ts";
 import { Storage } from "./database.ts";
 import { defined } from "./utils.ts";
-import { getURLInfo } from "./commands/info.ts";
 
 const { values } = parseArgs({
   args: process.argv.slice(2),

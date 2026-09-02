@@ -1,20 +1,19 @@
 import type { Browser } from "happy-dom";
-
-import type { InfoExtractor } from "../newsletter/interface";
-import { PyCoders } from "../newsletter/pycoders.ts";
 import type { Storage } from "../database.ts";
-import { defined } from "../utils.ts";
-import { SwiftNews } from "../newsletter/swiftnews.ts";
-import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
-import { GolangWeekly } from "../newsletter/golangweekly.ts"
-import { FrontendFocus } from "../newsletter/frontendfocus.ts"
-import { ReactStatusCode } from "../newsletter/reactstatuscode.ts"
-import { PostgresWeekly } from "../newsletter/postgresweekly.ts"
 import {
   JavascriptWeekly,
   NodeWeekly,
   RubyWeekly,
 } from "../newsletter/common/index.ts";
+import { FrontendFocus } from "../newsletter/frontendfocus.ts";
+import { GolangWeekly } from "../newsletter/golangweekly.ts";
+import type { InfoExtractor } from "../newsletter/interface";
+import { PostgresWeekly } from "../newsletter/postgresweekly.ts";
+import { PyCoders } from "../newsletter/pycoders.ts";
+import { ReactStatusCode } from "../newsletter/reactstatuscode.ts";
+import { SwiftNews } from "../newsletter/swiftnews.ts";
+import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
+import { defined } from "../utils.ts";
 
 export async function updateUrl(
   url: string,
@@ -51,11 +50,7 @@ export async function updateUrl(
     extractor = new PostgresWeekly(browser, storage);
   }
 
-  const items = [
-    JavascriptWeekly,
-    NodeWeekly,
-    RubyWeekly,
-  ];
+  const items = [JavascriptWeekly, NodeWeekly, RubyWeekly];
 
   for (const item of items) {
     const init = item(browser, storage);

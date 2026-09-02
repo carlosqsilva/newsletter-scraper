@@ -1,21 +1,20 @@
 import "../../styles/global.css";
 import "scheduler-polyfill";
 
-import { onMount, Show } from "solid-js";
 import qs from "query-string";
-
-import { Results } from "./results";
-import {
-  setSearchStore,
-  resultStore,
-  searchStore,
-  debouncedSearch,
-  cleanSearch,
-} from "./state";
+import { onMount, Show } from "solid-js";
 import { defined } from "../../utils";
 import { Logo } from "../ui/logo";
 import { FilterOptions } from "./filterOptions";
+import { Results } from "./results";
 import { SearchInput } from "./searchInput";
+import {
+  cleanSearch,
+  debouncedSearch,
+  resultStore,
+  searchStore,
+  setSearchStore,
+} from "./state";
 
 export function Search() {
   onMount(() => {

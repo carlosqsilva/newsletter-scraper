@@ -1,16 +1,15 @@
+import { isValid, parse } from "date-fns";
+import { enUS } from "date-fns/locale";
 import type {
   Browser,
   BrowserPage,
   HTMLAnchorElement,
   HTMLTimeElement,
 } from "happy-dom";
-import { isValid, parse } from "date-fns";
-import { enUS } from "date-fns/locale";
-
-import type { InfoExtractor } from "./interface.ts";
 import type { Storage } from "../database.ts";
-import type { InfoContent } from "./common/helper.ts";
 import { defined, resolveUrl } from "../utils.ts";
+import type { InfoContent } from "./common/helper.ts";
+import type { InfoExtractor } from "./interface.ts";
 
 export class SwiftNews implements InfoExtractor {
   browser: Browser;

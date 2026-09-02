@@ -1,7 +1,7 @@
 import type { Browser } from "happy-dom";
-import type { Storage, SourceName } from "../../database.ts";
-import { extractContent, extractContentDate } from "./helper.ts";
+import type { SourceName, Storage } from "../../database.ts";
 import type { InfoExtractor } from "../interface.ts";
+import { extractContent, extractContentDate } from "./helper.ts";
 
 class CommonExtractor implements InfoExtractor {
   browser: Browser;

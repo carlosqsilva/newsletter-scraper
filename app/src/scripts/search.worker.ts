@@ -64,9 +64,10 @@ async function getData(cacheName: string) {
     log("data downloaded and saved in cache");
 
     return response.json();
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  } catch (err: any) {
-    log(`Error to load data: ${err.message}`);
+  } catch (err) {
+    log(
+      `Error to load data: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 }
 
