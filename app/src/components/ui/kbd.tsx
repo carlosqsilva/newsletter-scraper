@@ -11,10 +11,7 @@ export function Kbd(props: keysProps) {
   return (
     <kbd
       {...defaultProps}
-      class={cn(
-        "pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100",
-        local.class,
-      )}
+      class={cn("y2k-kbd pointer-events-none select-none", local.class)}
     >
       <span>{local.children}</span>
     </kbd>

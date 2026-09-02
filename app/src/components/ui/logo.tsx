@@ -8,18 +8,19 @@ interface LogoProps extends JSX.ButtonHTMLAttributes<HTMLDivElement> {
 export function Logo(props: LogoProps) {
   const merged = mergeProps({ size: "sm" }, props);
   const [local, defaultProps] = splitProps(merged, ["size", "class"]);
-  const iconSize = local.size === "sm" ? "64px" : "72px";
+  const iconSize = local.size === "sm" ? "44px" : "56px";
 
   return (
     <div
       {...defaultProps}
       class={cn(
-        "flex flex-nowrap flex-none text-zinc-600 items-center",
+        "flex flex-nowrap flex-none items-center gap-2 text-ink",
         defined(defaultProps.onClick) && "cursor-pointer",
         local.class,
       )}
     >
       <svg
+        class="y2k-icon"
         width={iconSize}
         height={iconSize}
         viewBox="0 0 256 256"
@@ -32,9 +33,10 @@ export function Logo(props: LogoProps) {
       </svg>
       <div
         class={cn(
-          "flex flex-col font-semibold leading-6 ml-1",
-          local.size === "sm" && "text-base leading-5",
-          local.size === "lg" && "text-xl leading-6",
+          "flex flex-col font-pixel",
+          local.size === "sm" &&
+            "text-[10px] leading-[1.6] tracking-wide",
+          local.size === "lg" && "text-xs leading-[1.8] md:text-sm",
         )}
       >
         <span>Newsletter</span>
