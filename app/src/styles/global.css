@@ -50,6 +50,21 @@ html {
   outline-offset: 2px;
 }
 
+/*
+ * The search bar signals focus via its own focus-within shadow, so its
+ * input must not draw the global focus-visible outline (the form is the
+ * focus indicator).
+ *
+ * The input's "outline-none" utility lives in Tailwind's utilities layer,
+ * which unlayered author CSS always beats — hence this explicit override.
+ * A transparent outline (vs. outline-style: none) keeps forced-colors
+ * mode able to paint its own indicator.
+ */
+.y2k-search-field:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 /* ── THE WINDOW ────────────────────────────────────────────── */
 .y2k-window {
   background: var(--color-cream);

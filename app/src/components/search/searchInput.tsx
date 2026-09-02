@@ -59,7 +59,7 @@ export function SearchInput(props: SearchInputProps) {
         placeholder="Search the archive..."
         value={searchStore.searchQuery}
         class={cn(
-          "w-full bg-transparent px-3 py-2.5 text-base md:text-lg font-bold text-ink",
+          "y2k-search-field w-full bg-transparent px-3 py-2.5 text-base md:text-lg font-bold text-ink",
           "placeholder:text-muted/60 outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
