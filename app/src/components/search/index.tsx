@@ -109,19 +109,21 @@ function SearchResult() {
         </WindowFrame>
       </header>
 
-      <main class="flex-1 min-h-0 w-full max-w-5xl mx-auto px-4 md:px-6 pt-4 flex gap-5">
-        <aside class="hidden md:block w-52 shrink-0 min-h-0 overflow-y-auto">
-          <FilterOptions
-            onChange={(filters) => {
-              setSearchStore("searchFilter", filters);
-              debouncedSearch.trigger();
-            }}
-            options={FILTER_OPTIONS}
-          />
-        </aside>
+      <main class="flex-1 min-h-0 w-full px-4 pt-4 md:px-6">
+        <div class="h-full min-h-0 max-w-5xl mx-auto flex gap-5">
+          <aside class="hidden md:block w-52 shrink-0 min-h-0 overflow-y-auto">
+            <FilterOptions
+              onChange={(filters) => {
+                setSearchStore("searchFilter", filters);
+                debouncedSearch.trigger();
+              }}
+              options={FILTER_OPTIONS}
+            />
+          </aside>
 
-        <div class="flex-1 min-h-0 flex flex-col">
-          <Results />
+          <div class="flex-1 min-h-0 flex flex-col">
+            <Results />
+          </div>
         </div>
       </main>
     </div>
