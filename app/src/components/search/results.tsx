@@ -1,7 +1,9 @@
 import { createVirtualizer } from "@tanstack/solid-virtual";
-import { createEffect, For, onCleanup } from "solid-js";
+import { createEffect, For, onCleanup, Show } from "solid-js";
+import { PixelSad } from "../ui/pixel";
+import { WindowFrame } from "../ui/window";
 import { Result } from "./result";
-import { resultStore } from "./state";
+import { resultStore, searchStore } from "./state";
 
 let listContainer: HTMLDivElement | undefined;
 
@@ -28,23 +30,39 @@ export function Results() {
   onCleanup(() => resizeObserver.disconnect());
 
   return (
-    <div
-      class="flex-1 relative"
-      ref={(el: HTMLElement) => resizeObserver.observe(el)}
+    <WindowFrame
+      title="search_results.txt"
+      class="flex-1 min-h-0 flex flex-col"
+      bodyClass="flex-1 min-h-0 relative"
+      bodyRef={(el) => resizeObserver.observe(el)}
+      data-delay="2"
+      footer={
+        <div class="y2k-status-bar shrink-0" role="status">
+          <span>
+            {resultStore.results.length} ITEM
+            {resultStore.results.length === 1 ? "" : "S"} FOUND
+          </span>
+          <span class="hidden lg:inline truncate">
+            QUERY: {searchStore.searchQuery || "—"}
+          </span>
+          <span>{resultStore.searchTime || "0MS"}</span>
+        </div>
+      }
     >
+      <Show when={resultStore.empty}>
+        <div class="absolute inset-0 z-10 flex items-center justify-center p-6">
+          <EmptyDialog />
+        </div>
+      </Show>
+
       <div
-        class="overflow-y-auto w-full absolute top-0 left-0 px-4"
+        class="overflow-y-auto w-full absolute top-0 left-0 px-2"
         ref={listContainer}
         style={{
           height: "2048px", // default initial size
         }}
       >
-        <ul
-          class="relative container"
-          style={{
-            height: `${virtual.getTotalSize()}px`,
-          }}
-        >
+        <ul class="relative" style={{ height: `${virtual.getTotalSize()}px` }}>
           <For each={virtual.getVirtualItems()}>
             {(item) => {
               const result = () => resultStore.results[item.index];
@@ -68,6 +86,26 @@ export function Results() {
           </For>
         </ul>
       </div>
-    </div>
+    </WindowFrame>
+  );
+}
+
+function EmptyDialog() {
+  return (
+    <WindowFrame
+      title="error_404.exe"
+      class="w-full max-w-xs"
+      bodyClass="flex flex-col items-center gap-3 p-5 text-center"
+    >
+      <PixelSad class="w-10 h-10 text-danger" />
+
+      <p class="font-display text-2xl leading-tight text-ink">
+        Nothing found for "{searchStore.searchQuery}"
+      </p>
+
+      <p class="text-xs font-bold text-muted">
+        Try a different query or reset the source filters.
+      </p>
+    </WindowFrame>
   );
 }
