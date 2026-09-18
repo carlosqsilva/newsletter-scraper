@@ -1,6 +1,7 @@
 import { createSelector, For } from "solid-js";
 import { Button } from "../ui/button";
 import { RotateCcw } from "../ui/icons";
+import { WindowFrame } from "../ui/window";
 import { searchStore } from "./state";
 
 interface OptionsFiltersProps {
@@ -21,28 +22,46 @@ export function FilterOptions(props: OptionsFiltersProps) {
   };
 
   return (
-    <div class="space-y-2">
-      <For each={props.options}>
-        {(item) => (
-          <label class="flex items-center select-none">
-            <input
-              type="checkbox"
-              value={item.value}
-              class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-neutral-900 focus:ring-neutral-900"
-              checked={isSelected(item.value)}
-              onChange={[onChange, item.value]}
-            />
-            <span class="ml-2 text-sm font-medium text-gray-900">
-              {item.label}
-            </span>
-          </label>
-        )}
-      </For>
+    <WindowFrame title="filters.dll" class="w-full" data-delay="1">
+      <fieldset class="m-0 p-3 flex flex-col gap-1 border-0">
+        <For each={props.options}>
+          {(item) => (
+            <label
+              class={
+                "flex items-center gap-2 -mx-1 px-2 py-1 cursor-pointer select-none transition-colors duration-100 " +
+                (isSelected(item.value) ? "bg-butter/40" : "hover:bg-butter/20")
+              }
+            >
+              <input
+                type="checkbox"
+                value={item.value}
+                class="y2k-checkbox"
+                checked={isSelected(item.value)}
+                onChange={[onChange, item.value]}
+              />
+              <span
+                class={
+                  "text-[13px] font-bold tracking-tight " +
+                  (isSelected(item.value) ? "text-ink" : "text-muted")
+                }
+              >
+                {item.label}
+              </span>
+            </label>
+          )}
+        </For>
+      </fieldset>
 
-      <Button class="w-full" onClick={() => props.onChange?.([])}>
-        <RotateCcw size={18} />
-        Reset Filter
-      </Button>
-    </div>
+      <div class="px-3 pb-3">
+        <Button
+          class="w-full"
+          intent="danger"
+          onClick={() => props.onChange?.([])}
+        >
+          <RotateCcw size={12} strokeWidth={2.5} />
+          Reset
+        </Button>
+      </div>
+    </WindowFrame>
   );
 }

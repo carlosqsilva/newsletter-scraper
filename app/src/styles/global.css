@@ -1,1 +1,372 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Nunito:wght@400;600;700;800&display=swap");
 @import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Y2K DESIGN SYSTEM — "Bubblegum OS"
+   pastel chaos · pixel fonts · hard shadows · zero blur
+   ───────────────────────────────────────────────────────────── */
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-pixel: "Press Start 2P", monospace;
+  --font-display: "VT323", monospace;
+
+  --color-ink: #1a0a2e; /* borders + primary text */
+  --color-cream: #fff5dc; /* window body */
+  --color-butter: #ffd84d; /* title bars + primary btn */
+  --color-bubblegum: #ff85c2; /* page background */
+  --color-hotpink: #ff3d9a; /* sparkles + focus */
+  --color-danger: #ff3d6b;
+  --color-lilac: #c8a0ff;
+  --color-muted: #6b4c6b;
+  --color-paper: #ffffff;
+}
+
+/* ── PAGE ──────────────────────────────────────────────────── */
+html {
+  background: var(--color-bubblegum);
+}
+
+.y2k-bg {
+  background-color: var(--color-bubblegum);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* CRT screen-on flicker, applied once to body on load */
+.crt {
+  animation: screen-flicker 0.4s ease-out both;
+}
+
+::selection {
+  background: var(--color-hotpink);
+  color: var(--color-cream);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-hotpink);
+  outline-offset: 2px;
+}
+
+/*
+ * The search bar signals focus via its own focus-within shadow, so its
+ * input must not draw the global focus-visible outline (the form is the
+ * focus indicator).
+ *
+ * The input's "outline-none" utility lives in Tailwind's utilities layer,
+ * which unlayered author CSS always beats — hence this explicit override.
+ * A transparent outline (vs. outline-style: none) keeps forced-colors
+ * mode able to paint its own indicator.
+ */
+.y2k-search-field:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+/* ── THE WINDOW ────────────────────────────────────────────── */
+.y2k-window {
+  background: var(--color-cream);
+  border: 2px solid var(--color-ink);
+  box-shadow: 4px 4px 0 var(--color-ink);
+  border-radius: 0;
+  overflow: hidden;
+  color: var(--color-ink);
+  animation: window-spawn 200ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.y2k-window[data-delay="1"] {
+  animation-delay: 70ms;
+}
+.y2k-window[data-delay="2"] {
+  animation-delay: 140ms;
+}
+.y2k-window[data-delay="3"] {
+  animation-delay: 210ms;
+}
+
+.y2k-title-bar {
+  position: relative;
+  background: var(--color-butter);
+  border-bottom: 2px solid var(--color-ink);
+  padding: 7px 8px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--color-ink);
+  user-select: none;
+}
+
+/* title bar scanline shimmer */
+.y2k-title-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(255, 255, 255, 0.18) 2px,
+    rgba(255, 255, 255, 0.18) 4px
+  );
+  pointer-events: none;
+}
+
+.y2k-controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 4px;
+}
+
+.y2k-controls span {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-ink);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.y2k-controls .close {
+  background: #ff5b5b;
+}
+.y2k-controls .min {
+  background: var(--color-butter);
+}
+.y2k-controls .max {
+  background: #59d98f;
+}
+
+.y2k-controls svg {
+  width: 8px;
+  height: 8px;
+  display: block;
+}
+
+/* ── BUTTON ────────────────────────────────────────────────── */
+.y2k-btn {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  line-height: 1.6;
+  padding: 8px 12px;
+  background: var(--color-cream);
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+  box-shadow: 3px 3px 0 var(--color-ink);
+  color: var(--color-ink);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 80ms,
+    box-shadow 80ms,
+    filter 80ms;
+}
+
+.y2k-btn:hover {
+  filter: brightness(1.08);
+}
+
+.y2k-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--color-ink);
+}
+
+/* ── KEY CAP ───────────────────────────────────────────────── */
+.y2k-kbd {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 6px 4px;
+  border: 2px solid var(--color-ink);
+  background: var(--color-cream);
+  box-shadow: 2px 2px 0 var(--color-ink);
+  color: var(--color-ink);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── TAG (source badge) ────────────────────────────────────── */
+.y2k-tag {
+  display: inline-block;
+  padding: 4px 5px 3px;
+  border: 1px solid var(--color-ink);
+  background: var(--color-butter);
+  box-shadow: 2px 2px 0 var(--color-ink);
+  color: var(--color-ink);
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── STATUS BAR ────────────────────────────────────────────── */
+.y2k-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 10px 6px;
+  border-top: 2px solid var(--color-ink);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+/* ── CHECKBOX ──────────────────────────────────────────────── */
+.y2k-checkbox {
+  appearance: none;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  border: 2px solid var(--color-ink);
+  box-shadow: 2px 2px 0 var(--color-ink);
+  background: var(--color-paper);
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+.y2k-checkbox::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--color-ink);
+  transform: scale(0);
+  transition: transform 100ms steps(2, end);
+}
+
+.y2k-checkbox:checked {
+  background: var(--color-butter);
+}
+
+.y2k-checkbox:checked::before {
+  transform: scale(1);
+}
+
+/* ── TASKBAR ───────────────────────────────────────────────── */
+.y2k-taskbar {
+  border-top: 2px solid var(--color-ink);
+  background: var(--color-cream);
+}
+
+.y2k-taskitem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  border: 2px solid var(--color-ink);
+  background: var(--color-butter);
+  box-shadow: 2px 2px 0 var(--color-ink);
+}
+
+/* ── ICON PIXEL-JUMP ───────────────────────────────────────── */
+.y2k-icon {
+  transition: transform 120ms steps(1);
+}
+
+.y2k-icon:hover {
+  transform: translateY(-3px);
+}
+
+/* ── SPARKLE DECORATION ────────────────────────────────────── */
+.sparkle {
+  display: inline-block;
+  animation: sparkle-spin 3s linear infinite;
+}
+
+.y2k-float {
+  animation: y2k-float 4s ease-in-out infinite;
+}
+
+/* ── SCROLLBAR ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+  border-left: 2px solid var(--color-ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-butter);
+  border: 2px solid var(--color-ink);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-lilac);
+}
+
+/* ── KEYFRAMES ─────────────────────────────────────────────── */
+@keyframes window-spawn {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkle-spin {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3) rotate(180deg);
+    opacity: 0.7;
+  }
+}
+
+@keyframes y2k-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes screen-flicker {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  12% {
+    opacity: 0;
+  }
+  14% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
