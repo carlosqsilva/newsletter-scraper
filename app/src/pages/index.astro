@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 
+import { PixelHeart } from "../components/ui/pixel";
 import { Search } from "../components/search";
 ---
 
@@ -13,16 +14,33 @@ import { Search } from "../components/search";
       href="/newsletter-scraper/favicon.svg"
     />
     <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#ff85c2" />
     <meta name="generator" content={Astro.generator} />
     <title>Newsletter Scraper</title>
   </head>
-  <body class="min-h-screen">
+  <body class="y2k-bg crt min-h-screen font-sans text-ink">
     <Search client:only="solid-js" />
 
     <footer
-      class="fixed bottom-0 w-full bg-white/30 backdrop-blur-sm z-10 flex items-center p-3 justify-center"
+      class="y2k-taskbar fixed bottom-0 inset-x-0 z-20 flex items-center justify-between gap-2 px-3 py-1.5"
     >
-      Made by{" "}<a href="https://github.com/carlosqsilva" class="mx-1 text-sky-600">Carlos Silva</a>
+      <span class="y2k-taskitem">
+        <PixelHeart class="w-3 h-3 text-hotpink" />
+        <span class="font-pixel text-[8px] leading-none text-ink hidden sm:inline"
+          >NEWSLETTER_SCRAPER.EXE</span
+        >
+      </span>
+      <p class="font-pixel text-[8px] leading-none text-ink flex items-center gap-1.5">
+        MADE BY
+        <a
+          href="https://github.com/carlosqsilva"
+          target="_blank"
+          rel="noreferrer"
+          class="text-hotpink underline decoration-2 underline-offset-2 hover:text-ink transition-colors duration-100"
+        >
+          CARLOS_SILVA
+        </a>
+      </p>
     </footer>
   </body>
 </html>

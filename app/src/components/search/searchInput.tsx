@@ -34,7 +34,9 @@ export function SearchInput(props: SearchInputProps) {
     <form
       {...defaultProps}
       class={cn(
-        "relative border border-slate-300 max-w-screen-lg rounded-lg",
+        "relative flex items-center bg-paper border-2 border-ink max-w-screen-lg",
+        "shadow-[3px_3px_0_0_var(--color-ink)] focus-within:shadow-[3px_3px_0_0_var(--color-hotpink)]",
+        "transition-shadow duration-100",
         local.class,
       )}
       onSubmit={async (e) => {
@@ -45,17 +47,20 @@ export function SearchInput(props: SearchInputProps) {
         debouncedSearch.flush();
       }}
     >
-      <SearchIcon class="size-7 absolute top-3 left-4 text-zinc-400" />
+      <SearchIcon
+        class="y2k-icon w-5 h-5 shrink-0 ml-3 text-muted pointer-events-none"
+        strokeWidth={2.5}
+      />
 
       <input
         autofocus
         name="search"
         ref={inputRef}
-        placeholder="Search..."
+        placeholder="Search the archive..."
         value={searchStore.searchQuery}
         class={cn(
-          "text-2xl md:text-3xl rounded-lg pl-16 pr-10 py-2 w-full placeholder:text-zinc-400",
-          "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "y2k-search-field w-full bg-transparent px-3 py-2.5 text-base md:text-lg font-bold text-ink",
+          "placeholder:text-muted/60 outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
         onInput={(e) => {
@@ -64,7 +69,7 @@ export function SearchInput(props: SearchInputProps) {
         }}
       />
 
-      <Kbd class="absolute top-3 right-3 h-7">/</Kbd>
+      <Kbd class="mr-3 shrink-0">/</Kbd>
     </form>
   );
 }
