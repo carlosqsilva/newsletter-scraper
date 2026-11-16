@@ -28,7 +28,7 @@ export function FilterOptions(props: OptionsFiltersProps) {
             <input
               type="checkbox"
               value={item.value}
-              class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-neutral-900 focus:ring-neutral-900"
+              class="size-4 accent-neutral-900"
               checked={isSelected(item.value)}
               onChange={[onChange, item.value]}
             />

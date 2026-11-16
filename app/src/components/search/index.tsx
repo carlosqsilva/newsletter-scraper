@@ -1,6 +1,3 @@
-import "../../styles/global.css";
-import "scheduler-polyfill";
-
 import qs from "query-string";
 import { onMount, Show } from "solid-js";
 import { defined } from "../../utils";

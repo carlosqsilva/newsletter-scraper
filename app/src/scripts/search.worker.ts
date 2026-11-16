@@ -14,7 +14,7 @@ const log = (msg: string) => console.info(`[WEB WORKER]: ${msg}`);
 const dataUrl = "/newsletter-scraper/data.json";
 const expirationKey = "expiration";
 const now = Date.now();
-const week = 172_800_000; // 2 days in miliseconds
+const CACHE_TTL_MS = 172_800_000; // 2 days in milliseconds
 let ready = false;
 
 function validateResponse(resp?: Response) {
@@ -57,7 +57,7 @@ async function getData(cacheName: string) {
     }
     const responseCopy = await cloneResponse(
       response.clone(),
-      String(now + week),
+      String(now + CACHE_TTL_MS),
     );
 
     cache.put(dataUrl, responseCopy);

@@ -55,7 +55,7 @@ export function SearchInput(props: SearchInputProps) {
         value={searchStore.searchQuery}
         class={cn(
           "text-2xl md:text-3xl rounded-lg pl-16 pr-10 py-2 w-full placeholder:text-zinc-400",
-          "ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2",
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
         onInput={(e) => {
