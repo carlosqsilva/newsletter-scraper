@@ -7,7 +7,7 @@ const buttonVariants = cva(
     variants: {
       intent: {
         neutral:
-          "transition-colors duration-100 rounded-md text-neutral-500 bg-neutral-50 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-100 hover:text-neutral-600 hover:bg-neutral-100",
+          "transition-colors duration-100 rounded-md text-fg-muted bg-surface-hover hover:text-fg hover:bg-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-fg-subtle focus-visible:ring-offset-canvas",
         info: "text-blue-500 transition-colors duration-100 rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-blue-100 bg-blue-50 hover:text-blue-600 hover:bg-blue-100",
         danger:
           "text-red-500 transition-colors duration-100 rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-red-100 bg-red-50 hover:text-red-600 hover:bg-red-100",

@@ -1,1 +1,32 @@
 @import "tailwindcss";
+
+/*
+ * Semantic color tokens. Each resolves with light-dark() against the
+ * element's used color-scheme, so the whole UI follows the OS preference.
+ * Values are Tailwind's zinc/sky palette in oklch.
+ */
+@theme {
+  --color-canvas: light-dark(oklch(100% 0 0), oklch(14.1% 0.005 285.823));
+  --color-surface: light-dark(oklch(98.5% 0 0), oklch(21% 0.006 285.885));
+  --color-surface-hover: light-dark(
+    oklch(96.7% 0.001 286.375),
+    oklch(27.4% 0.006 286.033)
+  );
+  --color-fg: light-dark(oklch(27.4% 0.006 286.033), oklch(96.7% 0.001 286.375));
+  --color-fg-muted: light-dark(oklch(44.2% 0.017 285.786), oklch(87.1% 0.006 286.286));
+  --color-fg-subtle: light-dark(oklch(55.2% 0.016 285.938), oklch(70.5% 0.015 286.067));
+  --color-border: light-dark(oklch(87.1% 0.006 286.286), oklch(37% 0.013 285.805));
+  --color-link: light-dark(oklch(50% 0.134 242.749), oklch(74.6% 0.16 232.661));
+  --color-accent: light-dark(oklch(20.5% 0 0), oklch(92% 0.004 286.32));
+}
+
+:root {
+  /* Themes native UI: scrollbars, form controls, canvas. Must be on :root. */
+  color-scheme: light dark;
+  accent-color: var(--color-accent);
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-fg);
+}

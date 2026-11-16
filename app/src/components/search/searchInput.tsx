@@ -35,7 +35,7 @@ export function SearchInput(props: SearchInputProps) {
     <search
       {...defaultProps}
       class={cn(
-        "block relative border border-slate-300 max-w-screen-lg rounded-lg",
+        "block relative border border-border max-w-screen-lg rounded-lg",
         local.class,
       )}
     >
@@ -52,7 +52,7 @@ export function SearchInput(props: SearchInputProps) {
           Search newsletters
         </label>
 
-        <SearchIcon class="size-7 absolute top-3 left-4 text-zinc-400" />
+        <SearchIcon class="size-7 absolute top-3 left-4 text-fg-subtle" />
 
         <input
           autofocus
@@ -69,8 +69,8 @@ export function SearchInput(props: SearchInputProps) {
           placeholder="Search..."
           value={searchStore.searchQuery}
           class={cn(
-            "text-2xl md:text-3xl rounded-lg pl-16 pr-10 py-2 w-full placeholder:text-zinc-400",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2",
+            "text-2xl md:text-3xl rounded-lg pl-16 pr-10 py-2 w-full placeholder:text-fg-subtle",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fg-subtle focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
             "disabled:cursor-not-allowed disabled:opacity-50",
           )}
           onInput={(e) => {

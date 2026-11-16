@@ -30,13 +30,11 @@ export function FilterOptions(props: OptionsFiltersProps) {
               <input
                 type="checkbox"
                 value={item.value}
-                class="size-4 accent-neutral-900"
+                class="size-4"
                 checked={isSelected(item.value)}
                 onChange={[onChange, item.value]}
               />
-              <span class="ml-2 text-sm font-medium text-gray-900">
-                {item.label}
-              </span>
+              <span class="ml-2 text-sm font-medium text-fg">{item.label}</span>
             </label>
           )}
         </For>

@@ -21,7 +21,7 @@ export function Logo(props: LogoProps) {
 
   const classes = () =>
     cn(
-      "flex flex-nowrap flex-none text-zinc-600 items-center text-left",
+      "flex flex-nowrap flex-none text-fg-muted items-center text-left",
       clickable() && "cursor-pointer rounded-md",
       local.class,
     );
