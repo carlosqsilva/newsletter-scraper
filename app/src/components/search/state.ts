@@ -1,6 +1,4 @@
 import debounce from "debounce";
-import prettyMs from "pretty-ms";
-import qs from "query-string";
 import { createStore, unwrap } from "solid-js/store";
 import { SearchWorker } from "../../scripts/search";
 import { defined } from "../../utils";
@@ -45,18 +43,38 @@ interface QueryStringState {
 
 export function updateURLSearchParams(state?: QueryStringState) {
   const url = new URL(window.location.href);
+  const params = new URLSearchParams();
 
-  if (!defined(state)) {
-    url.search = "";
-    window.history.replaceState(null, "", url);
-    return;
+  if (defined(state)) {
+    params.set("q", state.q);
+    for (const source of state.s) params.append("s", source);
   }
 
-  url.search = qs.stringify(state);
+  url.search = params.toString();
   window.history.replaceState(null, "", url);
 }
 
-export function submitSearch() {
+// Sub-second times read as "12ms", longer ones as "1.3s".
+const msFormat = new Intl.NumberFormat(undefined, {
+  style: "unit",
+  unit: "millisecond",
+  unitDisplay: "narrow",
+  maximumFractionDigits: 0,
+});
+const secondsFormat = new Intl.NumberFormat(undefined, {
+  style: "unit",
+  unit: "second",
+  unitDisplay: "narrow",
+  maximumFractionDigits: 1,
+});
+
+function formatDuration(ms: number) {
+  return ms < 1000 ? msFormat.format(ms) : secondsFormat.format(ms / 1000);
+}
+
+let latestRequest = 0;
+
+export async function submitSearch() {
   const { searchQuery, searchFilter } = unwrap(searchStore);
   const query = searchQuery.trim();
 
@@ -67,19 +85,17 @@ export function submitSearch() {
     return;
   }
 
-  performance.mark("search-start");
-  search.search({ query, source: searchFilter }, (results) => {
-    performance.mark("search-end");
-    const duration = performance.measure(
-      "search-duration",
-      "search-start",
-      "search-end",
-    );
-    setResultStore({
-      results,
-      empty: results.length === 0,
-      searchTime: prettyMs(duration.duration),
-    });
+  const requestId = ++latestRequest;
+  const start = performance.now();
+  const results = await search.search({ query, source: searchFilter });
+
+  // A newer search was submitted while this one ran; drop the stale results.
+  if (requestId !== latestRequest) return;
+
+  setResultStore({
+    results,
+    empty: results.length === 0,
+    searchTime: formatDuration(performance.now() - start),
   });
 }
 

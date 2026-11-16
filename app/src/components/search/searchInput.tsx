@@ -1,6 +1,5 @@
 import { createUniqueId, type JSX, onCleanup, splitProps } from "solid-js";
-import { tinykeys } from "tinykeys";
-import { cn, defined } from "../../utils";
+import { cn } from "../../utils";
 import { SearchIcon } from "../ui/icons";
 import { Kbd } from "../ui/kbd";
 import { debouncedSearch, searchStore, setSearchStore } from "./state";
@@ -12,24 +11,18 @@ export function SearchInput(props: SearchInputProps) {
 
   const inputId = createUniqueId();
   let inputRef: HTMLInputElement | undefined;
-  const unSubscribe = tinykeys(
-    window,
-    {
-      "/": () => {
-        const hasRef = defined(inputRef);
-        const hasInputFocused =
-          document.activeElement?.tagName?.toLowerCase() === "input";
-        const alreadyFocused =
-          hasRef && document.activeElement?.isSameNode(inputRef);
-        if (hasRef && !hasInputFocused && !alreadyFocused) {
-          inputRef.focus();
-        }
-      },
-    },
-    { event: "keyup" },
-  );
-
-  onCleanup(unSubscribe);
+  // "/" focuses the search box, unless the user is already typing somewhere.
+  // keydown + preventDefault keeps the "/" from being typed into the field.
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key !== "/" || e.isComposing) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const target = e.target as HTMLElement | null;
+    if (target?.closest("input, textarea, select, [contenteditable]")) return;
+    e.preventDefault();
+    inputRef?.focus();
+  };
+  window.addEventListener("keydown", onKeyDown);
+  onCleanup(() => window.removeEventListener("keydown", onKeyDown));
 
   return (
     <search

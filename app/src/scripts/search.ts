@@ -1,55 +1,40 @@
-import { nanoid } from "nanoid";
-
-type Callback<T> = (data: T) => void;
-
-interface SearchInput {
+export interface SearchInput {
   query: string;
   source: string[];
 }
 
 export interface MessageData {
-  callbackId: string;
+  callbackId: number;
   search: SearchInput;
 }
 
+export interface ResponseData<T> {
+  callbackId: number;
+  results: T;
+}
+
+/** Promise-based wrapper around the MiniSearch web worker. */
 export class SearchWorker<T> {
-  worker: Worker;
-  callbacks: Array<{
-    id: string;
-    cb: Callback<T>;
-  }> = [];
+  #worker: Worker;
+  #nextId = 0;
+  #pending = new Map<number, (results: T) => void>();
 
   constructor() {
-    this.worker = new Worker(new URL("./search.worker.ts", import.meta.url), {
+    this.#worker = new Worker(new URL("./search.worker.ts", import.meta.url), {
       type: "module",
     });
-    this.worker.onmessage = ({ data }) => {
-      this.runWorkerCallback(data.callbackId, data.results);
+    this.#worker.onmessage = ({ data }: MessageEvent<ResponseData<T>>) => {
+      const resolve = this.#pending.get(data.callbackId);
+      this.#pending.delete(data.callbackId);
+      resolve?.(data.results);
     };
   }
 
-  search(search: SearchInput, callback: Callback<T>) {
-    this.worker.postMessage({
-      search,
-      callbackId: this.addCallback(callback),
+  search(search: SearchInput): Promise<T> {
+    const callbackId = this.#nextId++;
+    return new Promise((resolve) => {
+      this.#pending.set(callbackId, resolve);
+      this.#worker.postMessage({ search, callbackId } satisfies MessageData);
     });
-  }
-
-  addCallback(cb: Callback<T>) {
-    const id = nanoid();
-    this.callbacks.push({
-      id,
-      cb,
-    });
-    return id;
-  }
-
-  runWorkerCallback(id: string, data: T) {
-    for (let i = 0; i < this.callbacks.length; i++) {
-      if (this.callbacks[i].id === id) {
-        this.callbacks[i].cb(data);
-        this.callbacks.splice(i, 1);
-      }
-    }
   }
 }

@@ -1,6 +1,4 @@
-import qs from "query-string";
 import { onMount, Show } from "solid-js";
-import { defined } from "../../utils";
 import { Logo } from "../ui/logo";
 import { FilterOptions } from "./filterOptions";
 import { Results } from "./results";
@@ -33,14 +31,11 @@ const onFilterChange = (filters: string[]) => {
 
 export function Search() {
   onMount(() => {
-    const { q, s = [] } = qs.parse(window.location.search, {
-      types: {
-        q: "string",
-        s: "string[]",
-      },
-    }) as { q: string; s: string[] };
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q") ?? "";
+    const s = params.getAll("s");
 
-    if (defined(q) && q !== "") {
+    if (q !== "") {
       setSearchStore({
         searchQuery: q,
         searchFilter: s,

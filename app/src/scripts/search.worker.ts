@@ -101,6 +101,10 @@ getData("cache-v1").then((data) => {
 // biome-ignore lint/suspicious/noGlobalAssign: this is a web worker
 onmessage = ({ data }: MessageEvent<MessageData>) => {
   if (!ready) {
+    // Only the latest request matters; settle the superseded one with no results.
+    if (pendingMessage) {
+      postMessage({ results: [], callbackId: pendingMessage.callbackId });
+    }
     pendingMessage = data;
     return;
   }
