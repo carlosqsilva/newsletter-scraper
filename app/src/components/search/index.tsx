@@ -82,13 +82,13 @@ function SearchResult() {
         </div>
       </header>
 
-      <div class="flex-1 min-h-0 bg-surface">
-        <main class="flex gap-6 h-full container mx-auto">
+      <div class="flex-1 min-h-0 flex flex-col bg-surface">
+        <main class="flex-1 min-h-0 w-full flex gap-6 container mx-auto">
           <div class="hidden md:block max-w-56 pt-6 pl-4">
             <FilterOptions onChange={onFilterChange} options={NEWSLETTERS} />
           </div>
 
-          <div class="flex-1 flex flex-col">
+          <div class="flex-1 min-w-0 min-h-0 flex flex-col">
             {/* Filters are in the sidebar on md+; on small screens they live
                 in a native disclosure so they are still reachable. */}
             <details class="md:hidden mx-4 mt-4 rounded-md border border-border bg-canvas">

@@ -99,7 +99,7 @@ export async function submitSearch() {
   });
 }
 
-export const debouncedSearch = debounce(submitSearch, 700);
+export const debouncedSearch = debounce(submitSearch, 200);
 
 export const cleanSearch = () => {
   updateURLSearchParams();
