@@ -42,7 +42,7 @@ export function Search() {
 
 function SearchEmpty() {
   return (
-    <div class="px-8 max-w-screen-lg mx-auto min-h-[70vh] flex flex-col gap-10 items-center justify-center">
+    <main class="flex-1 px-8 w-full max-w-screen-lg mx-auto flex flex-col gap-10 items-center justify-center">
       <Logo size="lg" />
 
       <p class="text-lg md:text-xl text-center text-zinc-600">
@@ -50,16 +50,20 @@ function SearchEmpty() {
       </p>
 
       <SearchInput class="w-full" />
-    </div>
+    </main>
   );
 }
 
 function SearchResult() {
   return (
-    <div class="h-screen flex flex-col">
+    <div class="flex-1 min-h-0 flex flex-col">
       <header class="md:px-4 md:border-b">
         <div class="md:py-10 container mx-auto flex items-center gap-8">
-          <Logo class="max-[640px]:hidden" onClick={cleanSearch} />
+          <Logo
+            class="max-[640px]:hidden"
+            actionLabel=", start a new search"
+            onClick={cleanSearch}
+          />
 
           <SearchInput class="flex-1 max-[640px]:rounded-none" />
         </div>
@@ -89,22 +93,29 @@ function SearchResult() {
           </div>
 
           <div class="flex-1 flex flex-col">
-            <Show when={resultStore.results.length > 0}>
-              <div class="px-4 pt-5 text-zinc-800">
-                Found{" "}
-                <span class="font-semibold">{resultStore.results.length}</span>{" "}
-                items in {resultStore.searchTime}
-              </div>
-            </Show>
+            {/* Always-mounted polite live region so result changes are announced */}
+            <div role="status">
+              <Show when={resultStore.results.length > 0}>
+                <div class="px-4 pt-5 text-zinc-800">
+                  Found{" "}
+                  <span class="font-semibold">
+                    {resultStore.results.length}
+                  </span>{" "}
+                  items in {resultStore.searchTime}
+                </div>
+              </Show>
 
-            <Show when={resultStore.empty}>
-              <div class="pt-32 text-zinc-800 flex flex-col gap-4 items-center justify-center text-center">
-                <div class="text-7xl">🫠</div>
-                <span class="text-2xl">
-                  Nothing Found for: '{searchStore.searchQuery}'
-                </span>
-              </div>
-            </Show>
+              <Show when={resultStore.empty}>
+                <div class="pt-32 text-zinc-800 flex flex-col gap-4 items-center justify-center text-center">
+                  <div class="text-7xl" aria-hidden="true">
+                    🫠
+                  </div>
+                  <span class="text-2xl">
+                    Nothing Found for: '{searchStore.searchQuery}'
+                  </span>
+                </div>
+              </Show>
+            </div>
 
             <Results />
           </div>

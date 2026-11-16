@@ -12,15 +12,15 @@ import { Search } from "../components/search";
       type="image/svg+xml"
       href="/newsletter-scraper/favicon.svg"
     />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>Newsletter Scraper</title>
   </head>
-  <body class="min-h-screen">
+  <body class="h-dvh flex flex-col">
     <Search client:only="solid-js" />
 
     <footer
-      class="fixed bottom-0 w-full bg-white/30 backdrop-blur-sm z-10 flex items-center p-3 justify-center"
+      class="flex-none flex items-center p-3 justify-center border-t border-zinc-200"
     >
       Made by{" "}<a href="https://github.com/carlosqsilva" class="mx-1 text-sky-600">Carlos Silva</a>
     </footer>

@@ -22,22 +22,25 @@ export function FilterOptions(props: OptionsFiltersProps) {
 
   return (
     <div class="space-y-2">
-      <For each={props.options}>
-        {(item) => (
-          <label class="flex items-center select-none">
-            <input
-              type="checkbox"
-              value={item.value}
-              class="size-4 accent-neutral-900"
-              checked={isSelected(item.value)}
-              onChange={[onChange, item.value]}
-            />
-            <span class="ml-2 text-sm font-medium text-gray-900">
-              {item.label}
-            </span>
-          </label>
-        )}
-      </For>
+      <fieldset class="space-y-1">
+        <legend class="sr-only">Filter by newsletter</legend>
+        <For each={props.options}>
+          {(item) => (
+            <label class="flex items-center min-h-6 pointer-coarse:min-h-11 select-none cursor-pointer">
+              <input
+                type="checkbox"
+                value={item.value}
+                class="size-4 accent-neutral-900"
+                checked={isSelected(item.value)}
+                onChange={[onChange, item.value]}
+              />
+              <span class="ml-2 text-sm font-medium text-gray-900">
+                {item.label}
+              </span>
+            </label>
+          )}
+        </For>
+      </fieldset>
 
       <Button class="w-full" onClick={() => props.onChange?.([])}>
         <RotateCcw size={18} />

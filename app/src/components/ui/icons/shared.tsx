@@ -19,6 +19,7 @@ const defaultAttributes: SVGAttributes = {
   "stroke-width": 2,
   "stroke-linecap": "round",
   "stroke-linejoin": "round",
+  "aria-hidden": "true",
 };
 
 export interface IconProps extends SVGAttributes {

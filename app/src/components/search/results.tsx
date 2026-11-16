@@ -10,7 +10,7 @@ export function Results() {
   const virtual = createVirtualizer({
     estimateSize: () => 96,
     getScrollElement: () => listContainer ?? null,
-    paddingEnd: 48,
+    paddingEnd: 16,
     get count() {
       return resultStore.results.length;
     },
