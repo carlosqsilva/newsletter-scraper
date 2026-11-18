@@ -5,6 +5,12 @@
     "jsxImportSource": "solid-js",
     "module": "ESNext",
   },
+  "contentMappers": [
+    {
+      "package": "@astrojs/ts-content-mapper",
+      "extensions": [".astro"]
+    }
+  ],
   "exclude": [
     "dist"
   ]
