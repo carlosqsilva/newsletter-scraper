@@ -1,18 +1,21 @@
 import { fileURLToPath } from "node:url";
-import { transform } from "oxc-transform";
+import { transformSync } from "oxc-transform";
 
 const extensionsRegex = /\.tsx?$/;
 
-export async function load(url, context, nextLoad) {
+// Synchronous load hook for module.registerHooks().
+export function load(url, context, nextLoad) {
 	if (extensionsRegex.test(url)) {
-		const { source: rawSource } = await nextLoad(url, {
+		const { source: rawSource } = nextLoad(url, {
 			...context,
 			format: "module",
 		});
 
-		const { code, map } = transform(fileURLToPath(url), rawSource.toString(), {
-			sourcemap: true,
-		});
+		const { code, map } = transformSync(
+			fileURLToPath(url),
+			rawSource.toString(),
+			{ sourcemap: true },
+		);
 
 		// TODO this should be handled by oxc with an inline sourcemap option
 		const mapString = JSON.stringify(map);
@@ -28,5 +31,5 @@ export async function load(url, context, nextLoad) {
 	}
 
 	// Let Node.js handle all other URLs.
-	return nextLoad(url);
+	return nextLoad(url, context);
 }

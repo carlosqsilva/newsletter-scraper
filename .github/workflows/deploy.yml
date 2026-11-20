@@ -49,12 +49,15 @@ jobs:
 
       - name: Commit changes
         working-directory: ./scraper
-        continue-on-error: true
         run: |
-          git config --global user.name ${{ env.GIT_NAME }}
-          git config --global user.email ${{ env.GIT_EMAIL }}
           git add database.db
-          git commit -am "Automated database update"
+          if git diff --cached --quiet; then
+            echo "No database changes to commit."
+            exit 0
+          fi
+          git config --global user.name "$GIT_NAME"
+          git config --global user.email "$GIT_EMAIL"
+          git commit -m "Automated database update"
           git push
 
   deploy:

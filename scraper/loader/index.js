@@ -1,3 +1,4 @@
-import { register } from "node:module";
+import { registerHooks } from "node:module";
+import { load } from "./ts-loader.js";
 
-register("./ts-loader.js", import.meta.url);
+registerHooks({ load });
