@@ -1,6 +1,6 @@
 # newsletter-scraper
 
-A web scraper that extract curated content from Programming/Coding newsletter, making it a great tool to search for new libraries, articles and tools.
+A web scraper that extracts curated content from programming/coding newsletters, making it a great tool to search for new libraries, articles and tools.
 
 [Website](https://carlosqsilva.github.io/newsletter-scraper/)
 
@@ -12,17 +12,17 @@ A web scraper that extract curated content from Programming/Coding newsletter, m
 - [x] [Ruby Weekly](https://rubyweekly.com)
 - [x] [Postgres Weekly](https://postgresweekly.com)
 - [x] [This Week in React](https://thisweekinreact.com)
-- [x] [Pycoders Weekly](https://pycoders.com/)
+- [x] [PyCoder's Weekly](https://pycoders.com/)
 
 Want to suggest a new newsletter? [Suggest Newsletter](https://github.com/carlosqsilva/newsletter-scraper/issues/new/choose)
 
 ## Why?
 
-Many newsletter dont allow/offer a way to search through its content
+Many newsletters don't allow/offer a way to search through their content
 
 ## How it works?
 
-[This Github Action](https://github.com/carlosqsilva/newsletter-scraper/blob/25dd657af77c6e5482ab05e9d7d859d9523c7611/.github/workflows/deploy.yml) runs every 2 days to scrape the newsletters and build the website with fresh data.
+[This GitHub Action](https://github.com/carlosqsilva/newsletter-scraper/blob/main/.github/workflows/deploy.yml) runs every 2 days to scrape the newsletters and build the website with fresh data.
 
 ## Built with
 
@@ -30,4 +30,4 @@ Many newsletter dont allow/offer a way to search through its content
 - SQLite
 - Astro
 - SolidJS
-- Tailwindcss
+- Tailwind CSS
