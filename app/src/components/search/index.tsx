@@ -21,7 +21,6 @@ const NEWSLETTERS = [
   { label: "Ruby Weekly", value: "rubyweekly" },
   { label: "Postgres Weekly", value: "postgresweekly" },
   { label: "PyCoders", value: "pycoders" },
-  { label: "Swift News", value: "swiftnews" },
 ];
 
 const onFilterChange = (filters: string[]) => {

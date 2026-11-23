@@ -11,7 +11,6 @@ import type { InfoExtractor } from "../newsletter/interface";
 import { PostgresWeekly } from "../newsletter/postgresweekly.ts";
 import { PyCoders } from "../newsletter/pycoders.ts";
 import { ReactStatusCode } from "../newsletter/reactstatuscode.ts";
-import { SwiftNews } from "../newsletter/swiftnews.ts";
 import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 import { defined } from "../utils.ts";
 
@@ -24,10 +23,6 @@ export async function updateUrl(
 
   if (PyCoders.canHandle(url)) {
     extractor = new PyCoders(browser, storage);
-  }
-
-  if (SwiftNews.canHandle(url)) {
-    extractor = new SwiftNews(browser, storage);
   }
 
   if (ThisWeekInReact.canHandle(url)) {

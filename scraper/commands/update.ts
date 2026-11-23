@@ -10,7 +10,6 @@ import { GolangWeekly } from "../newsletter/golangweekly.ts";
 import { PostgresWeekly } from "../newsletter/postgresweekly.ts";
 import { PyCoders } from "../newsletter/pycoders.ts";
 import { ReactStatusCode } from "../newsletter/reactstatuscode.ts";
-import { SwiftNews } from "../newsletter/swiftnews.ts";
 import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 
 export async function update(browser: Browser, storage: Storage) {
@@ -25,7 +24,6 @@ export async function update(browser: Browser, storage: Storage) {
       new GolangWeekly(browser, storage).update(),
       new ThisWeekInReact(browser, storage).update(),
       new PyCoders(browser, storage).update(),
-      new SwiftNews(browser, storage).update(),
     ]);
   } catch (err) {
     console.log(err);
