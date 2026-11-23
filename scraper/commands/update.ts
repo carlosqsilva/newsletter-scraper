@@ -1,15 +1,15 @@
 import type { Browser } from "happy-dom";
 import type { Storage } from "../database.ts";
 import {
+  FrontendFocus,
+  GolangWeekly,
   JavascriptWeekly,
   NodeWeekly,
+  PostgresWeekly,
+  ReactStatusCode,
   RubyWeekly,
 } from "../newsletter/common/index.ts";
-import { FrontendFocus } from "../newsletter/frontendfocus.ts";
-import { GolangWeekly } from "../newsletter/golangweekly.ts";
-import { PostgresWeekly } from "../newsletter/postgresweekly.ts";
 import { PyCoders } from "../newsletter/pycoders.ts";
-import { ReactStatusCode } from "../newsletter/reactstatuscode.ts";
 import { ThisWeekInReact } from "../newsletter/thisweekinreact.ts";
 
 export async function update(browser: Browser, storage: Storage) {
@@ -18,10 +18,10 @@ export async function update(browser: Browser, storage: Storage) {
       JavascriptWeekly(browser, storage).update(),
       NodeWeekly(browser, storage).update(),
       RubyWeekly(browser, storage).update(),
-      new PostgresWeekly(browser, storage).update(),
-      new ReactStatusCode(browser, storage).update(),
-      new FrontendFocus(browser, storage).update(),
-      new GolangWeekly(browser, storage).update(),
+      PostgresWeekly(browser, storage).update(),
+      ReactStatusCode(browser, storage).update(),
+      FrontendFocus(browser, storage).update(),
+      GolangWeekly(browser, storage).update(),
       new ThisWeekInReact(browser, storage).update(),
       new PyCoders(browser, storage).update(),
     ]);
