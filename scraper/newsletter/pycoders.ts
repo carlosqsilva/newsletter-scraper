@@ -50,41 +50,58 @@ export class PyCoders implements InfoExtractor {
     // document on navigation, which would invalidate the issue elements below.
     const issuePage = this.browser.newPage();
 
-    await page.goto(`${PyCoders.baseUrl}/issues`);
+    let done = false;
 
-    const issues = page.mainFrame.document.querySelectorAll(
-      '.container div h2 a[href^="/issues"]',
-    );
+    try {
+      // The issue list is paginated, newest first.
+      for (let pageNumber = 1; !done; pageNumber++) {
+        await page.goto(`${PyCoders.baseUrl}/issues?page=${pageNumber}`);
 
-    for (const issue of issues) {
-      const url = (issue as HTMLAnchorElement).href;
-      if (!url) throw new Error("failed to extract url");
-      if (this.db.isSaved(url)) continue;
+        const links = page.mainFrame.document.querySelectorAll(
+          'a[href^="/issues/"]',
+        );
+        if (links.length === 0) break;
 
-      const issueNumber = Number(url.split("/").at(-1));
-      // skip everything from "Issue #402 (Jan. 1, 2020)"
-      if (issueNumber < 402) break;
+        let foundNew = false;
 
-      try {
-        const textContent = issue?.textContent;
-        const date = extractDate(textContent);
+        for (const link of links) {
+          const url = (link as HTMLAnchorElement).href;
+          const match = /\/issues\/(\d+)$/.exec(url);
+          if (!match) continue;
 
-        await issuePage.goto(url);
-        console.log(`parsing: ${url}`);
+          const issueNumber = Number(match[1]);
+          // skip everything from "Issue #402 (Jan. 1, 2020)"
+          if (issueNumber < 402) {
+            done = true;
+            break;
+          }
+          if (this.db.isSaved(url)) continue;
 
-        const content = await extractContent(issuePage);
-        this.db.saveContent("pycoders", {
-          url,
-          date,
-          content,
-        });
-      } catch (err) {
-        console.error(err);
+          foundNew = true;
+
+          try {
+            const date = extractDate(link.textContent ?? "");
+
+            await issuePage.goto(url);
+            console.log(`parsing: ${url}`);
+
+            const content = await extractContent(issuePage);
+            this.db.saveContent("pycoders", {
+              url,
+              date,
+              content,
+            });
+          } catch (err) {
+            console.error(err);
+          }
+        }
+
+        if (!foundNew) break;
       }
+    } finally {
+      await page.close();
+      await issuePage.close();
     }
-
-    await page.close();
-    await issuePage.close();
   }
 }
 
@@ -170,7 +187,16 @@ function extractDate(str: string) {
   const groups = dateStringRegex.exec(str?.trim())?.groups;
   if (!groups?.date) throw new Error(`failed to extract date: "${str}"`);
 
-  const dateStr = groups.date
+  const rawDate = groups.date.trim();
+
+  // Current issue list format: "(2026-11-17)"
+  const isoDate = parse(rawDate, "yyyy-MM-dd", new Date());
+  if (isValid(isoDate)) {
+    return formatISO(isoDate, { representation: "date" });
+  }
+
+  // Older issue list format: "(Jan. 1, 2020)"
+  const dateStr = rawDate
     .replace(/dec./i, "December")
     .replace(/nov./i, "November")
     .replace(/oct./i, "October")
