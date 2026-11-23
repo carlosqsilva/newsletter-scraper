@@ -46,6 +46,9 @@ export class PyCoders implements InfoExtractor {
 
   async update() {
     const page = this.browser.newPage();
+    // Issue content is loaded in a separate page: happy-dom replaces the
+    // document on navigation, which would invalidate the issue elements below.
+    const issuePage = this.browser.newPage();
 
     await page.goto(`${PyCoders.baseUrl}/issues`);
 
@@ -56,19 +59,20 @@ export class PyCoders implements InfoExtractor {
     for (const issue of issues) {
       const url = (issue as HTMLAnchorElement).href;
       if (!url) throw new Error("failed to extract url");
-      if (!url || this.db.isSaved(url)) continue;
+      if (this.db.isSaved(url)) continue;
 
       const issueNumber = Number(url.split("/").at(-1));
       // skip everything from "Issue #402 (Jan. 1, 2020)"
       if (issueNumber < 402) break;
 
       try {
-        await page.goto(url);
-        console.log(`parsing: ${url}`);
-
         const textContent = issue?.textContent;
         const date = extractDate(textContent);
-        const content = await extractContent(page);
+
+        await issuePage.goto(url);
+        console.log(`parsing: ${url}`);
+
+        const content = await extractContent(issuePage);
         this.db.saveContent("pycoders", {
           url,
           date,
@@ -76,10 +80,11 @@ export class PyCoders implements InfoExtractor {
         });
       } catch (err) {
         console.error(err);
-      } finally {
-        page.close();
       }
     }
+
+    await page.close();
+    await issuePage.close();
   }
 }
 

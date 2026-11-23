@@ -40,6 +40,9 @@ export class ReactStatusCode implements InfoExtractor {
 
   async update() {
     const page = this.browser.newPage();
+    // Issue content is loaded in a separate page: happy-dom replaces the
+    // document on navigation, which would invalidate the issue cards below.
+    const issuePage = this.browser.newPage();
 
     await page.goto(`${ReactStatusCode.baseUrl}/issues`);
 
@@ -48,17 +51,20 @@ export class ReactStatusCode implements InfoExtractor {
     for (const issue of issues) {
       const url = issue?.querySelector("a")?.href;
       if (!url) throw new Error("failed to extract url");
-      if (!url || this.db.isSaved(url)) continue;
+      if (this.db.isSaved(url)) continue;
 
       try {
-        await page.goto(url);
         console.log(`parsing: ${url}`);
-
         const date = extractContentDate(issue);
 
         console.log(date);
 
-        const content = await extractContent(page, ReactStatusCode.baseUrl);
+        await issuePage.goto(url);
+
+        const content = await extractContent(
+          issuePage,
+          ReactStatusCode.baseUrl,
+        );
         this.db.saveContent("reactstatus", {
           url,
           date,
@@ -70,6 +76,7 @@ export class ReactStatusCode implements InfoExtractor {
     }
 
     await page.close();
+    await issuePage.close();
   }
 }
 
@@ -84,6 +91,3 @@ function extractContentDate(el?: Element): string {
 
   return dateFmt;
 }
-
-// export const GolangWeekly = (browser: Browser, db: Storage) =>
-//   new GolangWeekly("golangweekly", "https://golangweekly.com", browser, db);

@@ -40,6 +40,9 @@ export class GolangWeekly implements InfoExtractor {
 
   async update() {
     const page = this.browser.newPage();
+    // Issue content is loaded in a separate page: happy-dom replaces the
+    // document on navigation, which would invalidate the issue cards below.
+    const issuePage = this.browser.newPage();
 
     await page.goto(`${GolangWeekly.baseUrl}/issues`);
 
@@ -48,17 +51,16 @@ export class GolangWeekly implements InfoExtractor {
     for (const issue of issues) {
       const url = issue?.querySelector("a")?.href;
       if (!url) throw new Error("failed to extract url");
-      if (!url || this.db.isSaved(url)) continue;
+      if (this.db.isSaved(url)) continue;
 
       try {
-        await page.goto(url);
-        console.log(`parsing: ${url}`);
-
         const date = extractContentDate(issue);
 
+        await issuePage.goto(url);
+        console.log(`parsing: ${url}`);
         console.log(date);
 
-        const content = await extractContent(page, GolangWeekly.baseUrl);
+        const content = await extractContent(issuePage, GolangWeekly.baseUrl);
         this.db.saveContent("golangweekly", {
           url,
           date,
@@ -70,6 +72,7 @@ export class GolangWeekly implements InfoExtractor {
     }
 
     await page.close();
+    await issuePage.close();
   }
 }
 

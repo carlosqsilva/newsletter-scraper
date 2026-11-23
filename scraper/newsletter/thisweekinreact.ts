@@ -49,6 +49,9 @@ export class ThisWeekInReact implements InfoExtractor {
 
   async update() {
     const page = this.browser.newPage();
+    // Issue content is loaded in a separate page: happy-dom replaces the
+    // document on navigation, which would invalidate the issue elements below.
+    const issuePage = this.browser.newPage();
 
     await page.goto(`${ThisWeekInReact.baseURL}/newsletter`);
 
@@ -65,10 +68,10 @@ export class ThisWeekInReact implements InfoExtractor {
       if (url.endsWith("previous")) continue;
 
       try {
-        await page.goto(url);
+        await issuePage.goto(url);
         console.log(`parsing: ${url}`);
 
-        const [date, content] = extractContent(page);
+        const [date, content] = extractContent(issuePage);
         this.db.saveContent("thisweekinreact", {
           url,
           date,
@@ -80,6 +83,7 @@ export class ThisWeekInReact implements InfoExtractor {
     }
 
     await page.close();
+    await issuePage.close();
   }
 }
 
